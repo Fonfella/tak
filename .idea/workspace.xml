@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a1c7e950-8c6e-4cdb-bea6-96db71b67f3f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/analog/AnalogIO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/analog/AnalogIOController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/analog/AnalogIOSource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/analog/AnalogIOSources.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/analog/AnalogInput.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/analog/AnalogOutput.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/analog/PerChannelSource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/analog/RawAnalogIO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/analog/calibrate/AnalogIOCalibrator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/analog/calibrate/AnalogIOSourceCalibrator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/analog/calibrate/CalibratedAnalogIO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/analog/calibrate/DefaultingAnalogIOSourceCalibrator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/analog/calibrate/ImmutableAnalogIOCalibrator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/analog/config/AnalogIOConfigFunctions.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/analog/config/AnalogIOConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/pololu/DefaultPololuMaestroServoNormalization.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/pololu/DefaultPololuServoConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/pololu/MaestroCard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/pololu/PololuCommandLineDriver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/pololu/PololuMaestroServoCard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/pololu/PololuMaestroServoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/Servo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/ServoSource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/ServoSources.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/calibrate/CalibratedServo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/calibrate/DefaultingServoSourceCalibrator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/calibrate/ImmutableServoCalibrator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/calibrate/ServoCalibrator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/calibrate/ServoSourceCalibrator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/command/CompoundServoCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/command/ImmutableServoCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/command/ParseStringIntoServoCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/command/ServoCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/command/ServoCommandExecutor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/command/ServoCommandLineDriver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/command/SimpleServoCommandExecutor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/config/ServoConfigFunctions.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/config/ServoConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/raw/RawServo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/servo/raw/ServoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/usb/EasedUsbDevice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/usb/EasyUsbDevice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/usb/Usb.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/usb/UsbDevicePredicates.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/usb/exception/UsbRuntimeException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/usb/topology/UsbDeviceFinder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/usb/topology/UsbTopologyExplorer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/usb/topology/UsbTopologyTreePrinter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/BooleanCondition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/Delegator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/LangUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/ThreadUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/cli/CommandHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/cli/CommandLineDriver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/cli/LiteralCommandHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/cli/PrefixCommandHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/cli/UnknownCommandException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/geom/Geometry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/io/AbstractResourceReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/io/BufferedReaderIterator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/io/IOUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/io/Readers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/io/ResourceUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/math/DoubleRange.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/math/InterRangeDoubleConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/math/MathUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/sguava/Converter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util/sguava/Sguava.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hardware/src/main/java/com/iamcontent/device/controller/pololu/maestro/usb/AbstractUsbPololuMaestroServoCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/pololu/card/AbstractPololuMaestroServoCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hardware/src/main/java/com/iamcontent/device/controller/pololu/maestro/usb/UsbMaestroCardType.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/pololu/card/MaestroCardType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hardware/src/main/java/com/iamcontent/device/controller/pololu/maestro/usb/UsbPololuMaestroServoCards.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/pololu/card/PololuMaestroServoCards.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hardware/src/main/java/com/iamcontent/device/controller/pololu/maestro/usb/UsbPololuMicroMaestroServoCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/pololu/card/PololuMicroMaestroServoCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hardware/src/main/java/com/iamcontent/device/controller/pololu/maestro/usb/UsbPololuMiniMaestroServoCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/pololu/card/PololuMiniMaestroServoCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1VFK5c7pKofwGMzXnBCXFjoqYvk" />
+  <component name="ProjectViewState">
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="show.unlinked.gradle.project.popup" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="hardware.usb.exception" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/util" />
+      <recent name="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware" />
+      <recent name="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/usb" />
+      <recent name="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware/pololu" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/spring-lib-pololu/src/main/java/hardware" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="TakApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="tak.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.vinz.tak.TakApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a1c7e950-8c6e-4cdb-bea6-96db71b67f3f" name="Default Changelist" comment="" />
+      <created>1576843221016</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1576843221016</updated>
+      <workItem from="1576843225806" duration="14766000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="576" y="434" width="813" height="150" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1576846570676">
+      <screen x="45" y="27" width="1875" height="957" />
+    </state>
+    <state x="576" y="434" width="813" height="150" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/45.27.1875.957@45.27.1875.957" timestamp="1576846570676" />
+    <state x="45" y="27" width="1026" height="957" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1576846741882">
+      <screen x="45" y="27" width="1875" height="957" />
+    </state>
+    <state x="45" y="27" width="1026" height="957" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/45.27.1875.957@45.27.1875.957" timestamp="1576846741882" />
+    <state x="471" y="140" width="1022" height="737" key="SettingsEditor" timestamp="1576843853789">
+      <screen x="45" y="27" width="1875" height="957" />
+    </state>
+    <state x="471" y="140" width="1022" height="737" key="SettingsEditor/45.27.1875.957@45.27.1875.957" timestamp="1576843853789" />
+    <state x="577" y="241" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1576870806865">
+      <screen x="45" y="27" width="1875" height="957" />
+    </state>
+    <state x="577" y="241" width="800" height="535" key="Vcs.Push.Dialog.v2/45.27.1875.957@45.27.1875.957" timestamp="1576870806865" />
+    <state x="291" y="106" width="1372" height="805" key="new project wizard" timestamp="1576843717264">
+      <screen x="45" y="27" width="1875" height="957" />
+    </state>
+    <state x="291" y="106" width="1372" height="805" key="new project wizard/45.27.1875.957@45.27.1875.957" timestamp="1576843717264" />
+    <state x="645" y="235" width="672" height="678" key="search.everywhere.popup" timestamp="1576843804272">
+      <screen x="45" y="27" width="1875" height="957" />
+    </state>
+    <state x="645" y="235" width="672" height="678" key="search.everywhere.popup/45.27.1875.957@45.27.1875.957" timestamp="1576843804272" />
+  </component>
+</project>

@@ -41,6 +41,31 @@ public class MaestroServoController implements ServoController
 
         initChannel(channel);
 
+        for (int i = 1; i < 20; i++)
+        {
+
+            short pos;
+            if(i % 2 == 0 )
+            {
+                pos = 1000;
+            } else {
+                pos = 2000;
+            }
+
+            servoCard.setPosition((short) 5, (short) (pos*4));
+
+            try
+            {
+                Thread.currentThread().sleep(300);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+
+            System.out.println("servoId = " + i);
+
+        }
         moveDown(channel);
         doWait(wait);
         moveUp(channel);
@@ -63,8 +88,8 @@ public class MaestroServoController implements ServoController
 
     private void initChannel(short channel)
     {
-        servoCard.setAcceleration(channel, SERVO_ACCELERATION);
-        servoCard.setSpeed(channel, SERVO_SPEED);
+        //servoCard.setAcceleration(channel, SERVO_ACCELERATION);
+        //servoCard.setSpeed(channel, SERVO_SPEED);
     }
 
     private short idToChannel(String servoId)

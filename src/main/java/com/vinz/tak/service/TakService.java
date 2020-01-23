@@ -2,6 +2,8 @@ package com.vinz.tak.service;
 
 import api.Discovery;
 import api.ServoController;
+import maestro.MaestroServoController;
+
 import com.vinz.tak.model.Command;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,7 +43,11 @@ public class TakService extends AbstractService
 
     private void execute(Command command)
     {
+        ((MaestroServoController) servoController).tak("a",1000);
+
+                //servoCard.setPosition(5,1800);
         //servoController
+
     }
 
     private void validateServo(Command command)

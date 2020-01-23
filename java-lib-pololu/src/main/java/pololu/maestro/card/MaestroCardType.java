@@ -38,7 +38,6 @@ import static pololu.usb.UsbDevicePredicates.vendorAndProductIdsMatch;
  */
 public enum MaestroCardType
 {
-
     USB_MICRO_MAESTRO_6(MAESTRO_MICRO6, 0x0089),
     USB_MINI_MAESTRO_12(MAESTRO_MINI12, 0x008A),
     USB_MINI_MAESTRO_18(MAESTRO_MINI18, 0x008B),

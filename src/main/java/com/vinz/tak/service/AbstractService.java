@@ -1,14 +1,14 @@
-package com.vinz.tak.controller;
+package com.vinz.tak.service;
 
 import com.vinz.tak.exception.HttpExceptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class AbstractController
+public abstract class AbstractService
 {
     @Autowired
     protected HttpExceptions exceptions;
 
-    protected Logger log = LoggerFactory.getLogger(getClass());
+    Logger log = LoggerFactory.getLogger(getClass());
 }

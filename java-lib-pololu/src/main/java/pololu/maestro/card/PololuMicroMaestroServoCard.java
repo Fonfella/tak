@@ -30,7 +30,6 @@ import javax.usb.UsbDevice;
  */
 public class PololuMicroMaestroServoCard extends AbstractPololuMaestroServoCard
 {
-
     private static final byte REQUEST_GET_VARIABLES = (byte) 0x83;
 
     public PololuMicroMaestroServoCard(UsbDevice device)

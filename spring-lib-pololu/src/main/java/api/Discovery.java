@@ -2,5 +2,5 @@ package api;
 
 public interface Discovery
 {
-    void discover();
+    ServoController discover();
 }

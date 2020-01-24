@@ -6,6 +6,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import pololu.maestro.PololuMaestroServoCard;
+import pololu.usb.exception.UsbRuntimeException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,6 +56,21 @@ public class MaestroServoController implements ServoController
 
         short pos = mapToServoUs(position);
         servoCard.setPosition(channel, pos);
+    }
+
+    @Override
+    public boolean test()
+    {
+        try {
+
+            servoCard.getPosition((short) 0);
+
+        } catch (UsbRuntimeException ure) {
+
+            return false;
+        }
+
+        return true;
     }
 
     private short mapToServoUs(float position)

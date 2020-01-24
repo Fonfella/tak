@@ -3,6 +3,7 @@ package com.vinz.tak.service;
 import api.Discovery;
 import api.ServoController;
 import com.vinz.tak.model.Command;
+import com.vinz.tak.pool.ServoControllerDiscovery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -23,15 +24,7 @@ public class TakService extends AbstractService
     public String SERVO_ID_B;
 
     @Autowired
-    private Discovery discovery;
-
-    private ServoController servoController;
-
-    @PostConstruct
-    public void init()
-    {
-        servoController = discovery.discover();
-    }
+    private ServoControllerDiscovery discovery;
 
     public void tak(Command command)
     {
@@ -42,12 +35,13 @@ public class TakService extends AbstractService
 
     private void execute(Command command)
     {
+        ServoController servoController = discovery.getServoController();
 
         servoController.set(command.getServo(), 0.0f);
-
         waitMs(1000);
-
         servoController.set(command.getServo(), 1.0f);
+
+        discovery.returnServoController(servoController);
     }
 
     private void validateServo(Command command)
@@ -69,10 +63,12 @@ public class TakService extends AbstractService
 
     public void debug(Map<String, Object> values)
     {
-        servoController.raw
+        /*servoController.raw
                 (String.valueOf(values.get("servo")),
                         ((Double) values.get("position")).floatValue(),
                         ((Integer) values.get("speed")).shortValue(),
                         ((Integer) values.get("acceleration")).shortValue());
+
+         */
     }
 }

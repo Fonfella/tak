@@ -17,12 +17,9 @@ public abstract class MaestroDiscovery extends AbstractDiscovery
     @Override
     public ServoController discover()
     {
-        if (servoCard == null) {
 
-            scan();
-
-            log.info("ServoCard found: " + servoCard.getType());
-        }
+        scan();
+        log.info("ServoCard found: " + servoCard.getType());
 
         return getController(servoCard);
     }

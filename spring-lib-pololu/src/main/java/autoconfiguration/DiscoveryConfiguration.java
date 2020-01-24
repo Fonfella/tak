@@ -9,5 +9,4 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = {"api", "maestro"})
 public class DiscoveryConfiguration
 {
-
 }

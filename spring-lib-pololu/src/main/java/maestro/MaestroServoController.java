@@ -15,12 +15,6 @@ import java.util.Map;
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class MaestroServoController implements ServoController
 {
-    @Value("${tak.servo.acceleration:200}")
-    private short SERVO_ACCELERATION;
-
-    @Value("${tak.servo.speed:400}")
-    private short SERVO_SPEED;
-
     private static Map<String, Short> servoChannels = new HashMap<>();
 
     static {
@@ -33,17 +27,6 @@ public class MaestroServoController implements ServoController
     public MaestroServoController(PololuMaestroServoCard card)
     {
         servoCard = card;
-    }
-
-    @Override
-    public void set(String servoId, float position)
-    {
-        short channel = idToChannel(servoId);
-
-        initChannel(channel);
-
-        short pos = mapToServoUs(position);
-        servoCard.setPosition(channel, pos);
     }
 
     @Override
@@ -76,12 +59,6 @@ public class MaestroServoController implements ServoController
     private short mapToServoUs(float position)
     {
         return (short) Math.round((position * 1000 + 1000) * 4);
-    }
-
-    private void initChannel(short channel)
-    {
-        servoCard.setAcceleration(channel, SERVO_ACCELERATION);
-        servoCard.setSpeed(channel, SERVO_SPEED);
     }
 
     private short idToChannel(String servoId)

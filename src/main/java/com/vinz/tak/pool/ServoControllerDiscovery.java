@@ -1,12 +1,14 @@
 package com.vinz.tak.pool;
 
-import api.ServoController;
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
+import api.ServoController;
+
 
 @Component
 public class ServoControllerDiscovery
@@ -22,30 +24,9 @@ public class ServoControllerDiscovery
         pool = new ServoControllerPool(servoControllerFactory, getConfig());
     }
 
-    public ServoController getServoController()
+    public ServoController getServoController() throws Exception
     {
-
-        ServoController servoController = null;
-
-        while (servoController == null) {
-
-            try {
-
-                servoController = pool.borrowObject();
-
-            } catch (Exception e) {
-
-                pool.clear();
-
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
-
-        return servoController;
+        return pool.borrowObject();
     }
 
     public void returnServoController(ServoController servoController)
@@ -55,7 +36,6 @@ public class ServoControllerDiscovery
 
     private GenericObjectPoolConfig<ServoController> getConfig()
     {
-
         GenericObjectPoolConfig<ServoController> config = new GenericObjectPoolConfig<>();
 
         config.setMaxIdle(1);

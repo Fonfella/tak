@@ -17,7 +17,7 @@ public class TakController extends AbstractController
     private TakService takService;
 
     @PostMapping("/tak")
-    public <B> ResponseEntity<B> tak(@RequestBody Command command)
+    public <B> ResponseEntity<B> tak(@RequestBody Command command) throws Exception
     {
         String token = command.getToken();
 

@@ -17,7 +17,7 @@ public class DebugController extends AbstractController
     private TakService takService;
 
     @PostMapping("/debug")
-    public <B> ResponseEntity<B> debug(@RequestBody Map<String, Object> values)
+    public <B> ResponseEntity<B> debug(@RequestBody Map<String, Object> values) throws Exception
     {
 
         log.info("Debug: " + values.toString());

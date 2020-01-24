@@ -1,22 +1,23 @@
 package com.vinz.tak.pool;
 
-import api.Discovery;
-import api.ServoController;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import api.Discovery;
+import api.ServoController;
+
+
 @Component
 public class ServoControllerFactory extends BasePooledObjectFactory<ServoController>
 {
-
     @Autowired
     private Discovery discovery;
 
     @Override
-    public ServoController create() throws Exception
+    public ServoController create()
     {
         return discovery.discover();
     }
@@ -30,6 +31,14 @@ public class ServoControllerFactory extends BasePooledObjectFactory<ServoControl
     @Override
     public boolean validateObject(PooledObject<ServoController> pooled)
     {
-        return pooled.getObject().test();
+
+        boolean tested = pooled.getObject().test();
+
+        if (!tested)
+        {
+            discovery.clear();
+        }
+
+        return tested;
     }
 }

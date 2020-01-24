@@ -1,15 +1,19 @@
 package com.vinz.tak.service;
 
-import api.Discovery;
-import api.ServoController;
-import com.vinz.tak.model.Command;
-import com.vinz.tak.pool.ServoControllerDiscovery;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.util.Map;
+import com.vinz.tak.model.Command;
+import com.vinz.tak.model.ServoCommand;
+import com.vinz.tak.pool.ServoControllerDiscovery;
+
+import api.ServoController;
+
 
 @Component
 public class TakService extends AbstractService
@@ -17,58 +21,86 @@ public class TakService extends AbstractService
     @Value("${tak.security.token:pmicro}")
     public String SECURITY_TOKEN;
 
-    @Value("${tak.servo.id.a:a}")
-    public String SERVO_ID_A;
-
-    @Value("${tak.servo.id.b:b}")
-    public String SERVO_ID_B;
-
     @Autowired
     private ServoControllerDiscovery discovery;
 
-    public void tak(Command command)
+    @Autowired
+    private ServoCommandFactory servoCommandFactory;
+
+    public void tak(Command command) throws Exception
     {
         validateServo(command);
 
-        execute(command);
+        List<ServoCommand> servoCommands = servoCommandFactory.buildCommand(command);
+
+        runServoController(servoCommands);
     }
 
-    private void execute(Command command)
+    private void waitFor(ServoCommand servoCommand)
     {
-        ServoController servoController = discovery.getServoController();
-
-        servoController.set(command.getServo(), 0.0f);
-        waitMs(1000);
-        servoController.set(command.getServo(), 1.0f);
-
-        discovery.returnServoController(servoController);
+        try
+        {
+            Thread.sleep(servoCommand.getDelay());
+        }
+        catch (InterruptedException ignored)
+        {
+        }
     }
 
     private void validateServo(Command command)
     {
         String servo = command.getServo().toLowerCase();
 
-        if (servo.equals(SERVO_ID_A)) {
-
+        if (servo.equals(servoCommandFactory.SERVO_ID_A))
+        {
             return;
         }
 
-        if (servo.equals(SERVO_ID_B)) {
-
+        if (servo.equals(servoCommandFactory.SERVO_ID_B))
+        {
             return;
         }
 
         exceptions.BadRequest("Invalid servo id [field: 'servo']");
     }
 
-    public void debug(Map<String, Object> values)
+    public void debug(Map<String, Object> values) throws Exception
     {
-        /*servoController.raw
-                (String.valueOf(values.get("servo")),
-                        ((Double) values.get("position")).floatValue(),
-                        ((Integer) values.get("speed")).shortValue(),
-                        ((Integer) values.get("acceleration")).shortValue());
+        ServoCommand.ServoCommandBuilder builder = ServoCommand.builder();
 
-         */
+        builder.servo(String.valueOf(values.get("servo")));
+        builder.position(((Double) values.get("position")).floatValue());
+        builder.speed(((Integer) values.get("speed")).shortValue());
+        builder.acceleration(((Integer) values.get("acceleration")).shortValue());
+
+        runServoController(Collections.singletonList(builder.build()));
+    }
+
+    private void runServoController(List<ServoCommand> servoCommands) throws Exception
+    {
+        ServoController servoController = null;
+
+        try
+        {
+            servoController = discovery.getServoController();
+
+            for (ServoCommand servoCommand : servoCommands)
+            {
+                servoController.raw(
+                    servoCommand.getServo(),
+                    servoCommand.getPosition(),
+                    servoCommand.getSpeed(),
+                    servoCommand.getAcceleration());
+
+                waitFor(servoCommand);
+            }
+        }
+        finally
+        {
+            if (servoController != null)
+            {
+                discovery.returnServoController(servoController);
+            }
+        }
     }
 }

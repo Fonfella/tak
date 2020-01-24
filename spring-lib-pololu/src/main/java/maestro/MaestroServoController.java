@@ -15,10 +15,10 @@ import java.util.Map;
 public class MaestroServoController implements ServoController
 {
 
-    @Value("${tak.servo.acceleration:50}")
+    @Value("${tak.servo.acceleration:200}")
     private short SERVO_ACCELERATION;
 
-    @Value("${tak.servo.speed:50}")
+    @Value("${tak.servo.speed:200}")
     private short SERVO_SPEED;
 
     private static Map<String, Short> servoChannels = new HashMap<>();
@@ -52,11 +52,11 @@ public class MaestroServoController implements ServoController
                 pos = 2000;
             }
 
-            servoCard.setPosition((short) 5, (short) (pos*4));
+            servoCard.setPosition((short) 0, (short) (pos*4));
 
             try
             {
-                Thread.currentThread().sleep(300);
+                Thread.currentThread().sleep(1200);
             }
             catch (InterruptedException e)
             {
@@ -88,8 +88,8 @@ public class MaestroServoController implements ServoController
 
     private void initChannel(short channel)
     {
-        //servoCard.setAcceleration(channel, SERVO_ACCELERATION);
-        //servoCard.setSpeed(channel, SERVO_SPEED);
+        servoCard.setAcceleration(channel, SERVO_ACCELERATION);
+        servoCard.setSpeed(channel, SERVO_SPEED);
     }
 
     private short idToChannel(String servoId)

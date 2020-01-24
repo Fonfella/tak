@@ -2,19 +2,18 @@ package com.vinz.tak.service;
 
 import api.Discovery;
 import api.ServoController;
-import maestro.MaestroServoController;
-
 import com.vinz.tak.model.Command;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Map;
 
 @Component
 public class TakService extends AbstractService
 {
-    @Value("${tak.security.token:allerg}")
+    @Value("${tak.security.token:pmicro}")
     public String SECURITY_TOKEN;
 
     @Value("${tak.servo.id.a:a}")
@@ -43,11 +42,12 @@ public class TakService extends AbstractService
 
     private void execute(Command command)
     {
-        ((MaestroServoController) servoController).tak("a",1000);
 
-                //servoCard.setPosition(5,1800);
-        //servoController
+        servoController.set(command.getServo(), 0.0f);
 
+        waitMs(1000);
+
+        servoController.set(command.getServo(), 1.0f);
     }
 
     private void validateServo(Command command)
@@ -65,5 +65,14 @@ public class TakService extends AbstractService
         }
 
         exceptions.BadRequest("Invalid servo id [field: 'servo']");
+    }
+
+    public void debug(Map<String, Object> values)
+    {
+        servoController.raw
+                (String.valueOf(values.get("servo")),
+                        ((Double) values.get("position")).floatValue(),
+                        ((Integer) values.get("speed")).shortValue(),
+                        ((Integer) values.get("acceleration")).shortValue());
     }
 }

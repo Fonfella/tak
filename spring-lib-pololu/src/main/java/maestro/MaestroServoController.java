@@ -14,11 +14,10 @@ import java.util.Map;
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class MaestroServoController implements ServoController
 {
-
     @Value("${tak.servo.acceleration:200}")
     private short SERVO_ACCELERATION;
 
-    @Value("${tak.servo.speed:200}")
+    @Value("${tak.servo.speed:400}")
     private short SERVO_SPEED;
 
     private static Map<String, Short> servoChannels = new HashMap<>();
@@ -35,55 +34,32 @@ public class MaestroServoController implements ServoController
         servoCard = card;
     }
 
-    public void tak(String servoId, long wait)
+    @Override
+    public void set(String servoId, float position)
     {
         short channel = idToChannel(servoId);
 
         initChannel(channel);
 
-        for (int i = 1; i < 20; i++)
-        {
-
-            short pos;
-            if(i % 2 == 0 )
-            {
-                pos = 1000;
-            } else {
-                pos = 2000;
-            }
-
-            servoCard.setPosition((short) 0, (short) (pos*4));
-
-            try
-            {
-                Thread.currentThread().sleep(1200);
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-
-            System.out.println("servoId = " + i);
-
-        }
-        moveDown(channel);
-        doWait(wait);
-        moveUp(channel);
+        short pos = mapToServoUs(position);
+        servoCard.setPosition(channel, pos);
     }
 
-    private void moveUp(short channel)
+    @Override
+    public void raw(String servoId, float position, short speed, short acceleration)
     {
+        short channel = idToChannel(servoId);
 
+        servoCard.setSpeed(channel, speed);
+        servoCard.setAcceleration(channel, acceleration);
+
+        short pos = mapToServoUs(position);
+        servoCard.setPosition(channel, pos);
     }
 
-    private void doWait(long wait)
+    private short mapToServoUs(float position)
     {
-
-    }
-
-    private void moveDown(short channel)
-    {
-
+        return (short) Math.round((position * 1000 + 1000) * 4);
     }
 
     private void initChannel(short channel)

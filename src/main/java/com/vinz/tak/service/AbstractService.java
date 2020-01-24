@@ -11,4 +11,12 @@ public abstract class AbstractService
     protected HttpExceptions exceptions;
 
     Logger log = LoggerFactory.getLogger(getClass());
+
+    protected void waitMs(long millis)
+    {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException ignored) {
+        }
+    }
 }

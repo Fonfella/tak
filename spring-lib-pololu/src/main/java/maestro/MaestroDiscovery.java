@@ -39,7 +39,6 @@ public abstract class MaestroDiscovery extends AbstractDiscovery
         }
     }
 
-
     @Lookup
     public abstract ServoController getController(PololuMaestroServoCard servoCard);
 }

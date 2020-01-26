@@ -26,13 +26,13 @@ public class ServoCommandFactory
     @Value("${tak.servo.a.start:0.0}")
     private float SERVO_A_START;
 
-    @Value("${tak.servo.b.start:0.0}")
+    @Value("${tak.servo.b.start:1.0}")
     private float SERVO_B_START;
 
     @Value("${tak.servo.a.end:1.0}")
     private float SERVO_A_END;
 
-    @Value("${tak.servo.b.end:1.0}")
+    @Value("${tak.servo.b.end:0.0}")
     private float SERVO_B_END;
 
     @Value("${tak.servo.down.time:1000}")

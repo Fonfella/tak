@@ -9,10 +9,9 @@ Crete a rule file for UDEV system and restart it.
 $ sudo sh -c 'echo "SUBSYSTEM==\"usb\", ATTRS{idVendor}==\"1ffb\", MODE=\"0666\"" > /etc/udev/rules.d/50-pololu.rules && /etc/init.d/udev restart'
 ```
 ##### Mac
-```bash
-$ sudo sh -c 'echo "SUBSYSTEM==\"usb\", ATTRS{idVendor}==\"1ffb\", MODE=\"0666\"" > /etc/udev/rules.d/50-pololu.rules && /etc/init.d/udev restart'
-```
+
+I don't know.
+
 ##### Windows
-```bash
-$ sudo sh -c 'echo "SUBSYSTEM==\"usb\", ATTRS{idVendor}==\"1ffb\", MODE=\"0666\"" > /etc/udev/rules.d/50-pololu.rules && /etc/init.d/udev restart'
-```
+
+I don't know (it's needed?).

@@ -15,8 +15,6 @@ jar {
     enabled = true
 }
 
-//mainClassName = 'com.vinz.tak.TakApplication'
-
 sourceCompatibility = 1.8
 
 repositories {

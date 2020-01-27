@@ -12,5 +12,5 @@ public class ServoCommand
     float position;
     short speed;
     short acceleration;
-    long delay = 0;
+    long delay;
 }

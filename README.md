@@ -10,8 +10,9 @@ $ sudo sh -c 'echo "SUBSYSTEM==\"usb\", ATTRS{idVendor}==\"1ffb\", MODE=\"0666\"
 ```
 ##### Mac
 
-I don't know.
+You *need* to update the [Maestro firmware](https://www.pololu.com/docs/0J40/4.f).
+
 
 ##### Windows
 
-I don't know (it's needed?).
+Do not use Pololu drivers. Better to install drivers using [Zadig](https://zadig.akeo.ie/).

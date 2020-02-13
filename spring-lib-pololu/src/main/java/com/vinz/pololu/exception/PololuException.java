@@ -1,4 +1,4 @@
-package exception;
+package com.vinz.pololu.exception;
 
 public class PololuException extends RuntimeException
 {

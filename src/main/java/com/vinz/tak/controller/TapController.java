@@ -1,6 +1,6 @@
 package com.vinz.tak.controller;
 
-import com.vinz.tak.codec.IntListCodec;
+import com.vinz.tape.codec.IntListCodec;
 import com.vinz.tak.model.Command;
 import com.vinz.tak.service.TapService;
 import org.springframework.beans.factory.annotation.Autowired;

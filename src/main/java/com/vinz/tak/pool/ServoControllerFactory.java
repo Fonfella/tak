@@ -6,8 +6,8 @@ import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import api.Discovery;
-import api.ServoController;
+import com.vinz.pololu.api.Discovery;
+import com.vinz.pololu.api.ServoController;
 
 
 @Component

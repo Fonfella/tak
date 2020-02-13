@@ -1,3 +1,4 @@
 rootProject.name = 'tak'
 include 'spring-lib-pololu'
 include 'java-lib-pololu'
+include 'spring-lib-tape'

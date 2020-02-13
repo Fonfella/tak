@@ -1,7 +1,6 @@
-package maestro;
+package com.vinz.pololu.maestro;
 
-import api.ServoController;
-import org.springframework.beans.factory.annotation.Value;
+import com.vinz.pololu.api.ServoController;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package api;
+package com.vinz.pololu.api;
 
 public interface Discovery
 {

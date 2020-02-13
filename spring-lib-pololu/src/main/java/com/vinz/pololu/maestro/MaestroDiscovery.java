@@ -1,10 +1,10 @@
-package maestro;
+package com.vinz.pololu.maestro;
 
 import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import api.ServoController;
+import com.vinz.pololu.api.ServoController;
 import pololu.maestro.PololuMaestroServoCard;
 import pololu.maestro.card.PololuMaestroServoCards;
 import pololu.usb.exception.UsbRuntimeException;

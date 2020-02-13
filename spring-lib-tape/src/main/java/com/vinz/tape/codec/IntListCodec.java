@@ -1,10 +1,10 @@
-package com.vinz.tak.codec;
+package com.vinz.tape.codec;
 
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
+import java.util.Base64;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
@@ -55,11 +55,11 @@ public class IntListCodec {
 
     private String baToString(byte[] data) throws UnsupportedEncodingException {
 
-        return Base64.encodeBase64String(data);
+        return Base64.getEncoder().encodeToString(data);
     }
 
     private byte[] stringToBa(String data) {
 
-        return Base64.decodeBase64(data);
+        return Base64.getDecoder().decode(data);
     }
 }

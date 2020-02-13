@@ -12,7 +12,7 @@ import com.vinz.tak.model.Command;
 import com.vinz.tak.model.ServoCommand;
 import com.vinz.tak.pool.ServoControllerDiscovery;
 
-import api.ServoController;
+import com.vinz.pololu.api.ServoController;
 
 
 @Component

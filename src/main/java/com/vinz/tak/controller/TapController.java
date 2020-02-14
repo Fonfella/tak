@@ -1,6 +1,6 @@
 package com.vinz.tak.controller;
 
-import com.vinz.tape.codec.IntListCodec;
+import com.vinz.tape.codec.TapeCodec;
 import com.vinz.tak.model.Command;
 import com.vinz.tak.service.TapService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class TapController extends AbstractController {
     private TapService tapService;
 
     @Autowired
-    private IntListCodec intListCodec;
+    private TapeCodec tapeCodec;
 
     @PostMapping("/tap")
     public <B> ResponseEntity<B> tak(@RequestBody Command command) throws Exception {

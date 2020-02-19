@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 @Component
 public class ProcessExecutor extends AbstractService {
@@ -16,16 +17,14 @@ public class ProcessExecutor extends AbstractService {
 
     public ExecResult exec(String... cli) {
 
+        return exec(null, cli);
+    }
+
+    public ExecResult exec(Predicate<String> filter, String... cli) {
+
         ProcessBuilder builder = new ProcessBuilder();
 
         builder.command(cli);
-
-        /*
-        if (workdir != null) {
-
-            builder.directory(new File(workdir));
-        }
-         */
 
         return runProcess(builder);
     }
@@ -46,6 +45,8 @@ public class ProcessExecutor extends AbstractService {
             resultBuilder.status(process.waitFor());
 
         } catch (Exception e) {
+
+            resultBuilder.message(e.getMessage());
 
             log.error("Error during execution: " + e.toString());
         }

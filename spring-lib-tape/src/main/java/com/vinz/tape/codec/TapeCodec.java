@@ -3,7 +3,6 @@ package com.vinz.tape.codec;
 import com.vinz.tape.model.Event;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -19,9 +18,7 @@ public class TapeCodec {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        Deflater deflater = new Deflater(Deflater.BEST_COMPRESSION);
-
-        DeflaterOutputStream def = new DeflaterOutputStream(baos, deflater);
+        DeflaterOutputStream def = new DeflaterOutputStream(baos, new Deflater(Deflater.BEST_COMPRESSION));
 
         DataOutputStream dos = new DataOutputStream(def);
 

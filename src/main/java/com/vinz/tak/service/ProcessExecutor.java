@@ -15,9 +15,30 @@ public class ProcessExecutor extends AbstractService {
 
     boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
 
-    public ExecResult exec(String... cli) {
+    public static String[] prepender(String[] orig, String... prefixes) {
 
-        return exec(null, cli);
+        String[] newcli = new String[orig.length + prefixes.length];
+
+        System.arraycopy(prefixes, 0, newcli, 0, prefixes.length);
+        System.arraycopy(orig, 0, newcli, prefixes.length, orig.length);
+
+        return newcli;
+    }
+
+    public ExecResult shellExec(Predicate<String> filter, String... cli) {
+
+        String[] shcli;
+
+        if (isWindows) {
+
+            shcli = prepender(cli, "cmd.exe", "/C");
+
+        } else {
+
+            shcli = prepender(cli, "sh", "-c");
+        }
+
+        return exec(filter, shcli);
     }
 
     public ExecResult exec(Predicate<String> filter, String... cli) {
@@ -39,7 +60,7 @@ public class ProcessExecutor extends AbstractService {
 
             Process process = processBuilder.start();
 
-            StreamGobbler streamGobbler = new StreamGobbler(process.getInputStream(), line -> resultBuilder.line(line));
+            StreamGobbler streamGobbler = new StreamGobbler(process.getInputStream(), resultBuilder::line);
             Executors.newSingleThreadExecutor().submit(streamGobbler);
 
             resultBuilder.status(process.waitFor());

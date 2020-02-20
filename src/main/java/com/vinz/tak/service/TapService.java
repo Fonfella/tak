@@ -17,7 +17,7 @@ import java.util.List;
 public class TapService extends AbstractService {
 
     @Autowired
-    private ProcessExecutor processExecutor;
+    private AdbExecutor adbExecutor;
 
     @Autowired
     private EventFactory eventFactory;
@@ -28,7 +28,7 @@ public class TapService extends AbstractService {
     @SneakyThrows
     public Tape record(StartRecord startRecord) {
 
-        ExecResult result = processExecutor.exec(s -> s.startsWith("/dev/input/"), "cmd.exe", "/C", "dir");
+        ExecResult result = adbExecutor.getEvents();
 
         if (result.getStatus() != 0) {
 

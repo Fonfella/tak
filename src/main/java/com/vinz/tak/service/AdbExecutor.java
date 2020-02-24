@@ -1,60 +1,56 @@
 package com.vinz.tak.service;
 
 import com.vinz.tak.model.ExecResult;
+import com.vinz.tak.model.StartRecord;
+import com.vinz.tak.util.ProcessUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Predicate;
 
+import static org.springframework.util.StringUtils.isEmpty;
+
 @Component
 public class AdbExecutor extends AbstractService {
 
     @Value("${adb.path:c:\\Users\\TarriconeV\\platform-tools\\adb.exe}")
-    public String winAdb;
+    public String adb;
 
-    @Value("${adb.path:c:\\Users\\TarriconeV\\platform-tools\\adb.exe}")
-    public String macAdb;
-
-    @Value("${adb.path:c:\\Users\\TarriconeV\\platform-tools\\adb.exe}")
-    public String linAdb;
+    @Autowired
+    private ProcessUtils processUtils;
 
     @Autowired
     private ProcessExecutor processExecutor;
 
-    boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
-    private int counter;
+    @Value("${events.waitfor:30000")
+    public long defaultWaitFor;
 
-    public ExecResult getEvents() {
+    public ExecResult getEvents(StartRecord startRecord) {
 
-        return adb(new Predicate<String>() {
+        String did = startRecord.getDid();
 
-            @Override
-            public boolean test(String s) {
+        long waitfor = startRecord.getWait();
 
-                counter++;
-                if(counter > 50) {
-                    throw new RuntimeException("ABBASTA");
-                }
-                return s.startsWith("/dev/input/event");
-            }
+        if(waitfor == 0) {
 
-        }, "shell", "getevent");
-    }
+            waitfor = defaultWaitFor;
+        }
 
-    public ExecResult adb(Predicate<String> filter, String... cli) {
+        if (!isEmpty(did)) {
 
-        String[] newcli;
-
-        if (isWindows) {
-
-            newcli = ProcessExecutor.prepender(cli, winAdb);
+            return adb(waitfor,s -> s.startsWith("/dev/input/event"), "-s", did, "shell", "getevent");
 
         } else {
 
-            newcli = ProcessExecutor.prepender(cli, macAdb);
+            return adb(waitfor, s -> s.startsWith("/dev/input/event"), "shell", "getevent");
         }
+    }
 
-        return processExecutor.exec(filter, newcli);
+    public ExecResult adb(long waitfor, Predicate<String> filter, String... cli) {
+
+        String[] newcli = processUtils.prepender(cli, adb);
+
+        return processExecutor.exec(waitfor, filter, newcli);
     }
 }

@@ -30,24 +30,36 @@ public class EventFactory {
 
         String[] strings = line.split("\\s+");
 
-        if (strings.length != 3) {
+        if (strings.length != 4) {
 
             throw new RuntimeException("Bad event line detected: [" + line + "]");
         }
 
         builder.device(parseDevice(strings[0]));
-        builder.command(parseFromHex(strings[1]));
-        builder.argument(parseFromHex(strings[1]));
-        builder.value(parseFromHex(strings[1]));
+        builder.command(parseIntFromHex(strings[1]));
+        builder.argument(parseIntFromHex(strings[2]));
+        builder.value(parseLongFromHex(strings[3]));
 
         return builder.build();
     }
 
-    private int parseFromHex(String data) {
+    private int parseIntFromHex(String data) {
 
         try {
 
-            return Integer.parseInt(data, 16);
+            return Integer.parseInt(data.toUpperCase(), 16);
+
+        } catch (NumberFormatException nfe) {
+
+            throw new RuntimeException("Invalid event data: [" + data + "]");
+        }
+    }
+
+    private long parseLongFromHex(String data) {
+
+        try {
+
+            return Long.parseLong(data.toUpperCase(), 16);
 
         } catch (NumberFormatException nfe) {
 

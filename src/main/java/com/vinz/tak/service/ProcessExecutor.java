@@ -1,58 +1,42 @@
 package com.vinz.tak.service;
 
 import com.vinz.tak.model.ExecResult;
+import com.vinz.tak.model.ExecResult.ExecResultBuilder;
+import com.vinz.tak.util.ProcessUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.concurrent.Executors;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 @Component
 public class ProcessExecutor extends AbstractService {
 
-    boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
+    @Autowired
+    private ProcessUtils processUtils;
 
-    public static String[] prepender(String[] orig, String... prefixes) {
+    public ExecResult shellExec(long waitfor, Predicate<String> filter, String... cli) {
 
-        String[] newcli = new String[orig.length + prefixes.length];
+        String[] shcli = processUtils.shellPrepender(cli);
 
-        System.arraycopy(prefixes, 0, newcli, 0, prefixes.length);
-        System.arraycopy(orig, 0, newcli, prefixes.length, orig.length);
-
-        return newcli;
+        return exec(waitfor, filter, shcli);
     }
 
-    public ExecResult shellExec(Predicate<String> filter, String... cli) {
-
-        String[] shcli;
-
-        if (isWindows) {
-
-            shcli = prepender(cli, "cmd.exe", "/C");
-
-        } else {
-
-            shcli = prepender(cli, "sh", "-c");
-        }
-
-        return exec(filter, shcli);
-    }
-
-    public ExecResult exec(Predicate<String> filter, String... cli) {
+    public ExecResult exec(long waitfor, Predicate<String> filter, String... cli) {
 
         ProcessBuilder builder = new ProcessBuilder();
 
         builder.command(cli);
 
-        return runProcess(builder);
+        return runProcess(builder, filter);
     }
 
-    private ExecResult runProcess(ProcessBuilder processBuilder) {
+    private ExecResult runProcess(ProcessBuilder processBuilder, Predicate<String> filter) {
 
-        ExecResult.ExecResultBuilder resultBuilder = ExecResult.builder();
+        ExecResultBuilder resultBuilder = ExecResult.builder();
 
         resultBuilder.status(-255);
 
@@ -60,7 +44,8 @@ public class ProcessExecutor extends AbstractService {
 
             Process process = processBuilder.start();
 
-            StreamGobbler streamGobbler = new StreamGobbler(process.getInputStream(), resultBuilder::line);
+            StreamGobbler streamGobbler = new StreamGobbler(process, resultBuilder, filter);
+
             Executors.newSingleThreadExecutor().submit(streamGobbler);
 
             resultBuilder.status(process.waitFor());
@@ -77,19 +62,40 @@ public class ProcessExecutor extends AbstractService {
 
     private static class StreamGobbler implements Runnable {
 
-        private InputStream pInputStream;
-        private Consumer<String> pConsumer;
+        private final Process pProcess;
+        private final ExecResultBuilder pResultBuilder;
+        private final Predicate<String> pFilter;
+        private int counter;
 
-        public StreamGobbler(InputStream inputStream, Consumer<String> consumer) {
+        public StreamGobbler(Process process, ExecResultBuilder resultBuilder, Predicate<String> filter) {
 
-            pInputStream = inputStream;
-            pConsumer = consumer;
+            pProcess = process;
+            pResultBuilder = resultBuilder;
+            pFilter = filter;
         }
 
         @Override
         public void run() {
 
-            new BufferedReader(new InputStreamReader(pInputStream)).lines().forEach(pConsumer);
+            Stream<String> lines = new BufferedReader(new InputStreamReader(pProcess.getInputStream())).lines();
+
+            if (pFilter != null) {
+
+                lines = lines.filter(pFilter);
+            }
+
+            lines.filter(new Predicate<String>() {
+
+                @Override
+                public boolean test(String s) {
+
+                    if (counter++ > 50) {
+
+                        pProcess.destroy();
+                    }
+                    return true;
+                }
+            }).forEach(pResultBuilder::line);
         }
     }
 }

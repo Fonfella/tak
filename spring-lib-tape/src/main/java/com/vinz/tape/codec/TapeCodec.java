@@ -56,7 +56,7 @@ public class TapeCodec {
         builder.device(dataInputStream.readInt());
         builder.command(dataInputStream.readInt());
         builder.argument(dataInputStream.readInt());
-        builder.value(dataInputStream.readInt());
+        builder.value(dataInputStream.readLong());
 
         return builder.build();
     }
@@ -66,7 +66,7 @@ public class TapeCodec {
         dos.writeInt(event.getDevice());
         dos.writeInt(event.getCommand());
         dos.writeInt(event.getArgument());
-        dos.writeInt(event.getValue());
+        dos.writeLong(event.getValue());
     }
 
     private String baToString(byte[] data) throws UnsupportedEncodingException {

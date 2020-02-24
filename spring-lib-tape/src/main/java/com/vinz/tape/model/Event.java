@@ -10,5 +10,5 @@ public class Event {
     int device;
     int command;
     int argument;
-    int value;
+    long value;
 }

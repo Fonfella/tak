@@ -5,26 +5,55 @@ import com.vinz.tak.model.Tape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.task.TaskExecutor;
+import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
+
+import static org.springframework.util.StringUtils.isEmpty;
 
 
 @Component
 public abstract class TapService extends AbstractService {
 
+    public static final String DID_DEFAULT = "DEFAULT";
+
     @Autowired
-    @Qualifier("adbExecutor")
-    public TaskExecutor taskExecutor;
+    @Qualifier("adbTaskExecutor")
+    public AsyncTaskExecutor taskExecutor;
 
-    public Tape record(StartRecord startRecord) {
+    private ConcurrentHashMap<String, TapeRecorder> tapeRecorders = new ConcurrentHashMap<>();
 
-        TapRecorder recorder = getRecorder("aaa");
+    public Tape record(StartRecord startRecord) throws ExecutionException, InterruptedException, IOException {
 
-        taskExecutor.execute(recorder);
+        String did = startRecord.getDid();
 
-        return null;
+        if (isEmpty(did)) {
+
+            did = DID_DEFAULT;
+        }
+
+        if (tapeRecorders.containsKey(did)) {
+
+            throw new RuntimeException("Device ID " + did + " is busy in another recording");
+        }
+
+        try {
+
+            TapeRecorder recorder = getRecorder(startRecord);
+
+            tapeRecorders.put(did, recorder);
+
+            return recorder.record().get();
+
+        } finally {
+
+            tapeRecorders.remove(did);
+        }
     }
 
     @Lookup
-    public abstract TapRecorder getRecorder(String did);
+    public abstract TapeRecorder getRecorder(StartRecord startRecord);
 }

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 public class TapController extends AbstractController {
@@ -18,7 +20,7 @@ public class TapController extends AbstractController {
     private TapService tapService;
 
     @PostMapping("/tap/record")
-    public Tape tap(@Valid @RequestBody StartRecord startRecord) {
+    public Tape tap(@Valid @RequestBody StartRecord startRecord) throws InterruptedException, ExecutionException, IOException {
 
         return tapService.record(startRecord);
     }

@@ -2,6 +2,7 @@ package com.vinz.tak.autoconfiguration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -10,8 +11,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @EnableAsync
 public class AdbExecutorConfiguration {
 
-    @Bean(name = "adbExecutor")
-    public TaskExecutor adbExecutor() {
+    @Bean(name = "adbTaskExecutor")
+    public AsyncTaskExecutor adbExecutor() {
 
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.concurrent.Future;
 import java.util.function.Predicate;
 
+import static com.vinz.tape.factory.EventFactory.EVENT_PREFIX;
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -25,53 +26,15 @@ import static org.springframework.util.StringUtils.isEmpty;
 @Scope(SCOPE_PROTOTYPE)
 public class TapeRecorder extends AbstractService {
 
-    private final StartRecord startRecord;
-
     @Autowired
     private AdbExecutor adbExecutor;
 
-    @Autowired
-    private EventFactory eventFactory;
-
-    @Autowired
-    private TapeCodec tapeCodec;
-
-    public TapeRecorder(StartRecord start) {
-
-        startRecord = start;
-    }
-
-    private String getCompressed(ExecResult result) throws IOException {
-
-        List<Event> events = eventFactory.parse(result.getLines());
-
-        if (events.isEmpty()) {
-
-            return null;
-        }
-
-        return tapeCodec.compress(events);
-    }
-
-    @Async
-    public Future<Tape> record() throws IOException {
-
-        ExecResult result = getEvents(startRecord);
-
-        Tape.TapeBuilder tapeBuilder = Tape.builder();
-
-        tapeBuilder.did(startRecord.getDid());
-        tapeBuilder.data(getCompressed(result));
-
-        return new AsyncResult<>(tapeBuilder.build());
-    }
-
     private Predicate<String> getEventFilter() {
 
-        return s -> s.startsWith("/dev/input/event");
+        return s -> s.startsWith(EVENT_PREFIX);
     }
 
-    public ExecResult getEvents(StartRecord startRecord) {
+    public List<String> record(StartRecord startRecord) {
 
         ProcessOptions options = new ProcessOptions();
         options.setFilter(getEventFilter());
@@ -79,13 +42,17 @@ public class TapeRecorder extends AbstractService {
 
         String did = startRecord.getDid();
 
+        ExecResult result;
+
         if (!isEmpty(did)) {
 
-            return adbExecutor.adb(options, "-s", did, "shell", "getevent");
+            result = adbExecutor.adb(options, "-s", did, "shell", "getevent");
 
         } else {
 
-            return adbExecutor.adb(options, "shell", "getevent");
+            result = adbExecutor.adb(options, "shell", "getevent");
         }
+
+        return result.getLines();
     }
 }

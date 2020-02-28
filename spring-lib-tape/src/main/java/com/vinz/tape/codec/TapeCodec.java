@@ -41,9 +41,16 @@ public class TapeCodec {
 
         List<Event> events = new ArrayList<>();
 
-        while (dataInputStream.available() > 0) {
+        try {
 
-            events.add(unserializeEvent(dataInputStream));
+            while (dataInputStream.available() > 0) {
+
+                events.add(unserializeEvent(dataInputStream));
+            }
+
+        } catch (EOFException e) {
+
+            System.out.println("e = " + e.toString());
         }
 
         return events;

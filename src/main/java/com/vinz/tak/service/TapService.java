@@ -14,7 +14,6 @@ import java.util.concurrent.ExecutionException;
 
 import static org.springframework.util.StringUtils.isEmpty;
 
-
 @Component
 public abstract class TapService extends AbstractService {
 
@@ -24,36 +23,65 @@ public abstract class TapService extends AbstractService {
     @Qualifier("adbTaskExecutor")
     public AsyncTaskExecutor taskExecutor;
 
-    private ConcurrentHashMap<String, TapeRecorder> tapeRecorders = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, TapeDeck> tapeDecks = new ConcurrentHashMap<>();
+
+    public Tape play(Tape tape) throws ExecutionException, InterruptedException, IOException {
+
+        try {
+
+            TapeDeck recorder = acquireTapeRecorder(tape.getDid());
+
+            return recorder.play(tape).get();
+
+        } finally {
+
+            releaseTapeRecorder(tape.getDid());
+        }
+    }
 
     public Tape record(StartRecord startRecord) throws ExecutionException, InterruptedException, IOException {
 
-        String did = startRecord.getDid();
+        try {
+
+            TapeDeck recorder = acquireTapeRecorder(startRecord.getDid());
+
+            return recorder.record(startRecord).get();
+
+        } finally {
+
+            releaseTapeRecorder(startRecord.getDid());
+        }
+    }
+
+    private void releaseTapeRecorder(String did) {
 
         if (isEmpty(did)) {
 
             did = DID_DEFAULT;
         }
 
-        if (tapeRecorders.containsKey(did)) {
+        tapeDecks.remove(did);
+    }
+
+    private TapeDeck acquireTapeRecorder(String did) {
+
+        if (isEmpty(did)) {
+
+            did = DID_DEFAULT;
+        }
+
+        if (tapeDecks.containsKey(did)) {
 
             throw new RuntimeException("Device ID " + did + " is busy in another recording");
         }
 
-        try {
+        TapeDeck recorder = getRecorder();
 
-            TapeRecorder recorder = getRecorder(startRecord);
+        tapeDecks.put(did, recorder);
 
-            tapeRecorders.put(did, recorder);
-
-            return recorder.record().get();
-
-        } finally {
-
-            tapeRecorders.remove(did);
-        }
+        return recorder;
     }
 
     @Lookup
-    public abstract TapeRecorder getRecorder(StartRecord startRecord);
+    public abstract TapeDeck getRecorder();
 }

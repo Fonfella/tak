@@ -24,4 +24,10 @@ public class TapController extends AbstractController {
 
         return tapService.record(startRecord);
     }
+
+    @PostMapping("/tap/play")
+    public Tape tap(@Valid @RequestBody Tape tape) throws InterruptedException, ExecutionException, IOException {
+
+        return tapService.play(tape);
+    }
 }

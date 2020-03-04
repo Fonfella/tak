@@ -83,6 +83,11 @@ public class EventFactory {
 
         Matcher match = number.matcher(deviceLine);
 
+        if (!match.find()) {
+
+            throw new RuntimeException("Device ID is not a number: [" + deviceLine + "]");
+        }
+
         String id = match.group();
 
         try {

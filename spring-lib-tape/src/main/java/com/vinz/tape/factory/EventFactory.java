@@ -6,11 +6,15 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 public class EventFactory {
 
     public static final String EVENT_PREFIX = "/dev/input/event";
+
+    private final Pattern number = Pattern.compile("\\d+");
 
     public List<Event> parse(List<String> lines) {
 
@@ -77,7 +81,9 @@ public class EventFactory {
 
     private int parseDevice(String deviceLine) {
 
-        String id = deviceLine.substring(deviceLine.length() - 2, deviceLine.length() - 1);
+        Matcher match = number.matcher(deviceLine);
+
+        String id = match.group();
 
         try {
 

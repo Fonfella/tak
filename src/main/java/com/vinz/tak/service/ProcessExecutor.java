@@ -74,6 +74,8 @@ public class ProcessExecutor extends AbstractService {
 
         processBuilder.command(cli);
 
+        log.debug("Executing " + Arrays.deepToString(cli));
+
         return runProcess(options, processBuilder);
     }
 
@@ -132,10 +134,12 @@ public class ProcessExecutor extends AbstractService {
             Stream<String> lines = new BufferedReader(new InputStreamReader(pProcess.getInputStream())).lines();
 
             if (pFilter != null) {
+
                 lines = lines.filter(pFilter);
             }
 
             lines.forEach(line -> {
+
                 lastLineTime.set(0);
                 pResultBuilder.line(line);
             });

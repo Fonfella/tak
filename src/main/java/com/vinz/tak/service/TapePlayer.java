@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static com.vinz.tak.service.TapeDeck.DEVICE_OPTION;
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -51,7 +52,7 @@ public class TapePlayer extends AbstractService {
 
         if (!isEmpty(did)) {
 
-            sendevent = processUtils.prepender(sendevent, "-d", did);
+            sendevent = processUtils.prepender(sendevent, DEVICE_OPTION, did);
         }
 
         adbExecutor.adb(options, sendevent);

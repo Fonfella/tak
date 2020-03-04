@@ -23,6 +23,8 @@ import static org.springframework.util.StringUtils.isEmpty;
 @Scope(SCOPE_PROTOTYPE)
 public class TapeDeck extends AbstractService {
 
+    public static final String DEVICE_OPTION = "-s";
+
     @Autowired
     private EventFactory eventFactory;
 

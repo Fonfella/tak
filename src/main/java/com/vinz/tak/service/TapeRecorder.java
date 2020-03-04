@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.concurrent.Future;
 import java.util.function.Predicate;
 
+import static com.vinz.tak.service.TapeDeck.DEVICE_OPTION;
 import static com.vinz.tape.factory.EventFactory.EVENT_PREFIX;
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 import static org.springframework.util.StringUtils.isEmpty;
@@ -46,7 +47,7 @@ public class TapeRecorder extends AbstractService {
 
         if (!isEmpty(did)) {
 
-            result = adbExecutor.adb(options, "-s", did, "shell", "getevent");
+            result = adbExecutor.adb(options, DEVICE_OPTION, did, "shell", "getevent");
 
         } else {
 

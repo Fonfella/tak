@@ -10,8 +10,10 @@ import pololu.usb.exception.UsbRuntimeException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
+
 @Component
-@Scope(BeanDefinition.SCOPE_PROTOTYPE)
+@Scope(SCOPE_PROTOTYPE)
 public class MaestroServoController implements ServoController
 {
     private static Map<String, Short> servoChannels = new HashMap<>();

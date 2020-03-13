@@ -114,12 +114,13 @@ public class EventFactory {
 
         // /dev/input/event1: 0003 0039 0000003a
 
-        String[] strings = new String[4];
+        String[] strings = new String[5];
 
-        strings[0] = EVENT_PREFIX + event.getDevice();
-        strings[1] = String.valueOf(event.getCommand());
-        strings[2] = String.valueOf(event.getArgument());
-        strings[3] = String.valueOf(event.getValue());
+        strings[0] = "sendevent";
+        strings[1] = EVENT_PREFIX + event.getDevice();
+        strings[2] = String.valueOf(event.getCommand());
+        strings[3] = String.valueOf(event.getArgument());
+        strings[4] = String.valueOf(event.getValue());
 
         return strings;
     }

@@ -5,13 +5,18 @@ import com.vinz.tak.model.Tape;
 import com.vinz.tak.util.ProcessUtils;
 import com.vinz.tape.factory.EventFactory;
 import com.vinz.tape.model.Event;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static com.vinz.tak.service.TapeDeck.DEVICE_OPTION;
+import static com.vinz.tak.service.TapeDeck.EVENT_TIME_MIN_DELTA_millis;
+import static java.lang.Thread.sleep;
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -32,29 +37,31 @@ public class TapePlayer extends AbstractService {
 
         ProcessOptions options = new ProcessOptions();
 
-        for (Event event : events) {
+        options.setTimeout(5000);
 
-            playEvent(options, event, did);
-        }
+        options.setStdin(events.stream().peek(event -> {
 
-        Tape.TapeBuilder builder = Tape.builder();
+            long delay = event.getDelay();
 
-        builder.did(did);
+            if (delay > EVENT_TIME_MIN_DELTA_millis) {
 
-        return builder.build();
-    }
+                try { sleep(delay); } catch (InterruptedException ignored) { }
+            }
 
-    private void playEvent(ProcessOptions options, Event event, String did) {
+        }).map(event -> eventFactory.explode(event)));
 
-        String[] params = eventFactory.explode(event);
-
-        String[] sendevent = processUtils.prepender(params, "shell", "sendevent");
+        String[] shell = {"shell"};
 
         if (!isEmpty(did)) {
 
-            sendevent = processUtils.prepender(sendevent, DEVICE_OPTION, did);
+            shell = processUtils.prepender(shell, DEVICE_OPTION, did);
         }
 
-        adbExecutor.adb(options, sendevent);
+        adbExecutor.adb(options, shell);
+
+        Tape.TapeBuilder builder = Tape.builder();
+        builder.did(did);
+
+        return builder.build();
     }
 }

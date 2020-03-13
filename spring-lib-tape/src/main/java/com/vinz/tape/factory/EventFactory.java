@@ -1,6 +1,7 @@
 package com.vinz.tape.factory;
 
 import com.vinz.tape.model.Event;
+import com.vinz.tape.model.RawEvent;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class EventFactory {
 
     private final Pattern number = Pattern.compile("\\d+");
 
-    public List<Event> parse(List<String> lines) {
+    public List<Event> parse(List<RawEvent> lines) {
 
         if (lines == null || lines.isEmpty()) {
 
@@ -25,9 +26,16 @@ public class EventFactory {
 
         List<Event> events = new ArrayList<>();
 
-        for (String line : lines) {
+        long previousEventTime = lines.get(0).getTimestamp();
+
+        for (RawEvent line : lines) {
 
             Event event = parseLine(line);
+
+            long timestamp = line.getTimestamp();
+
+            event.setDelay(timestamp - previousEventTime);
+            previousEventTime = timestamp;
 
             events.add(event);
         }
@@ -35,7 +43,9 @@ public class EventFactory {
         return events;
     }
 
-    private Event parseLine(String line) {
+    private Event parseLine(RawEvent event) {
+
+        String line = event.getLine();
 
         // /dev/input/event1: 0003 0039 0000003a
         Event.EventBuilder builder = Event.builder();

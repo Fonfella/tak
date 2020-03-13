@@ -1,6 +1,7 @@
 package com.vinz.tak.service;
 
 import com.vinz.tak.model.ExecResult;
+import com.vinz.tak.model.ExecResult.Line;
 import com.vinz.tak.model.ProcessOptions;
 import com.vinz.tak.model.StartRecord;
 import com.vinz.tak.model.Tape;
@@ -35,9 +36,10 @@ public class TapeRecorder extends AbstractService {
         return s -> s.startsWith(EVENT_PREFIX);
     }
 
-    public List<String> record(StartRecord startRecord) {
+    public List<Line> record(StartRecord startRecord) {
 
         ProcessOptions options = new ProcessOptions();
+
         options.setFilter(getEventFilter());
         options.setTimeout(startRecord.getWait());
 

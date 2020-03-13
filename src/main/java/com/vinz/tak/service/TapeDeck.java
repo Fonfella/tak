@@ -1,10 +1,13 @@
 package com.vinz.tak.service;
 
+import com.vinz.tak.model.ExecResult.Line;
 import com.vinz.tak.model.StartRecord;
 import com.vinz.tak.model.Tape;
 import com.vinz.tape.codec.TapeCodec;
 import com.vinz.tape.factory.EventFactory;
 import com.vinz.tape.model.Event;
+import com.vinz.tape.model.RawEvent;
+import com.vinz.tape.model.RawEvent.RawEventBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Async;
@@ -12,6 +15,7 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Future;
@@ -22,6 +26,8 @@ import static org.springframework.util.StringUtils.isEmpty;
 @Component
 @Scope(SCOPE_PROTOTYPE)
 public class TapeDeck extends AbstractService {
+
+    public static final long EVENT_TIME_MIN_DELTA_millis = 10;
 
     public static final String DEVICE_OPTION = "-s";
 
@@ -40,14 +46,38 @@ public class TapeDeck extends AbstractService {
     @Async
     public Future<Tape> record(StartRecord startRecord) throws IOException {
 
-        List<String> events = tapeRecorder.record(startRecord);
+        List<Line> events = tapeRecorder.record(startRecord);
 
         Tape.TapeBuilder tapeBuilder = Tape.builder();
-
         tapeBuilder.did(startRecord.getDid());
-        tapeBuilder.data(deflate(eventFactory.parse(events)));
+
+        List<RawEvent> eventList = elapsed(events);
+
+        tapeBuilder.data(deflate(eventFactory.parse(eventList)));
 
         return new AsyncResult<>(tapeBuilder.build());
+    }
+
+    private List<RawEvent> elapsed(List<Line> events) {
+
+        List<RawEvent> raws = new ArrayList<>();
+
+        if (events.isEmpty()) {
+
+            return Collections.emptyList();
+        }
+
+        for (Line event : events) {
+
+            RawEventBuilder builder = RawEvent.builder();
+
+            builder.line(event.getLine());
+            builder.timestamp(event.getTimestamp());
+
+            raws.add(builder.build());
+        }
+
+        return raws;
     }
 
     @Async

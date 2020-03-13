@@ -6,22 +6,29 @@ import com.vinz.tak.model.ProcessOptions;
 import com.vinz.tak.util.ProcessUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.StringJoiner;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+import static java.lang.System.*;
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
+import static org.springframework.util.StringUtils.arrayToDelimitedString;
 
 @Component
 @Scope(SCOPE_PROTOTYPE)
@@ -71,15 +78,9 @@ public class ProcessExecutor extends AbstractService {
     public ExecResult exec(ProcessOptions options, String... cli) {
 
         ProcessBuilder processBuilder = new ProcessBuilder();
-
         processBuilder.command(cli);
 
         log.debug("Executing " + Arrays.deepToString(cli));
-
-        return runProcess(options, processBuilder);
-    }
-
-    private ExecResult runProcess(ProcessOptions options, ProcessBuilder processBuilder) {
 
         ExecResultBuilder resultBuilder = ExecResult.builder();
         resultBuilder.status(-255);
@@ -96,8 +97,7 @@ public class ProcessExecutor extends AbstractService {
                 timer.schedule(new WaiterTimerTak(process), 0, waiterPeriodMillis);
             }
 
-            StreamGobbler streamGobbler = new StreamGobbler(process, resultBuilder, options.getFilter());
-            Executors.newSingleThreadExecutor().submit(streamGobbler);
+            setupIO(options, resultBuilder, process);
 
             resultBuilder.status(process.waitFor());
 
@@ -113,6 +113,49 @@ public class ProcessExecutor extends AbstractService {
         }
 
         return resultBuilder.build();
+    }
+
+    private void setupIO(ProcessOptions options, ExecResultBuilder resultBuilder, Process process) {
+
+        ExecutorService executorService;
+
+        if (options.getStdin() != null) {
+
+            executorService = Executors.newFixedThreadPool(2);
+            executorService.submit(new StreamLiner(process.getOutputStream(), options.getStdin()));
+
+        } else {
+
+            executorService = Executors.newFixedThreadPool(1);
+        }
+
+        executorService.submit(new StreamGobbler(process, resultBuilder, options.getFilter()));
+    }
+
+    private static class StreamLiner implements Runnable {
+
+        private final PrintWriter output;
+        private final Stream<String[]> commands;
+
+        public StreamLiner(OutputStream stdout, Stream<String[]> events) {
+
+            commands = events;
+            output = new PrintWriter(stdout);
+        }
+
+        @Override
+        public void run() {
+
+            commands.forEach(strings -> {
+
+                String params = arrayToDelimitedString(strings, " ");
+
+                output.println(params);
+                output.flush();
+
+                out.println("Cmd: " + params);
+            });
+        }
     }
 
     private class StreamGobbler implements Runnable {
@@ -141,7 +184,13 @@ public class ProcessExecutor extends AbstractService {
             lines.forEach(line -> {
 
                 lastLineTime.set(0);
-                pResultBuilder.line(line);
+
+                ExecResult.Line item = new ExecResult.Line();
+
+                item.setLine(line);
+                item.setTimestamp(currentTimeMillis());
+
+                pResultBuilder.line(item);
             });
         }
     }

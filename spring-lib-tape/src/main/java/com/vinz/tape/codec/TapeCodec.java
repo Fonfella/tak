@@ -60,6 +60,7 @@ public class TapeCodec {
 
         Event.EventBuilder builder = Event.builder();
 
+        builder.delay(dataInputStream.readLong());
         builder.device(dataInputStream.readInt());
         builder.command(dataInputStream.readInt());
         builder.argument(dataInputStream.readInt());
@@ -70,6 +71,7 @@ public class TapeCodec {
 
     private void serializeEvent(DataOutputStream dos, Event event) throws IOException {
 
+        dos.writeLong(event.getDelay());
         dos.writeInt(event.getDevice());
         dos.writeInt(event.getCommand());
         dos.writeInt(event.getArgument());

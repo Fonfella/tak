@@ -7,6 +7,8 @@ import lombok.Data;
 @Builder
 public class Event {
 
+    long delay;
+
     int device;
     int command;
     int argument;

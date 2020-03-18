@@ -8,25 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.StringJoiner;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import static java.lang.System.*;
+import static java.lang.System.currentTimeMillis;
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 import static org.springframework.util.StringUtils.arrayToDelimitedString;
 
@@ -152,8 +148,6 @@ public class ProcessExecutor extends AbstractService {
 
                 output.println(params);
                 output.flush();
-
-                out.println("Cmd: " + params);
             });
         }
     }

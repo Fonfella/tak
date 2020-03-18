@@ -76,7 +76,7 @@ public class ProcessExecutor extends AbstractService {
         ProcessBuilder processBuilder = new ProcessBuilder();
         processBuilder.command(cli);
 
-        log.debug("Executing " + Arrays.deepToString(cli));
+        log.info("Executing " + Arrays.deepToString(cli));
 
         ExecResultBuilder resultBuilder = ExecResult.builder();
         resultBuilder.status(-255);

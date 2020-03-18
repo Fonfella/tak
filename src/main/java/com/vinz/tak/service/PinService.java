@@ -6,6 +6,8 @@ import com.vinz.tak.util.ProcessUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.Charset;
+
 import static com.vinz.tak.service.TapeDeck.DEVICE_OPTION;
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -81,8 +83,16 @@ public class PinService extends AbstractService {
 
     private String convertToHex(String pin) {
 
-        Integer intPin = Integer.parseInt(pin);
+        byte[] bytes = pin.getBytes(Charset.defaultCharset());
 
-        return Integer.toHexString(intPin);
+        StringBuilder sb = new StringBuilder();
+
+        for (byte b : bytes) {
+
+            sb.append(Integer.toHexString(b));
+        }
+
+        return sb.toString();
     }
+
 }

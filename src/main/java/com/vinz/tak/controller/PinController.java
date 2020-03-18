@@ -18,6 +18,6 @@ public class PinController extends AbstractController {
     @PostMapping("/pin")
     public Pin tap(@Valid @RequestBody Pin pin) {
 
-        return pin;
+        return pinService.sendPin(pin);
     }
 }

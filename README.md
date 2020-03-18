@@ -12,6 +12,7 @@ $ sudo sh -c 'echo "SUBSYSTEM==\"usb\", ATTRS{idVendor}==\"1ffb\", MODE=\"0666\"
 
 You *need* to update the [Maestro firmware](https://www.pololu.com/docs/0J40/4.f).
 
+Update using Pololu application
 
 ##### Windows
 

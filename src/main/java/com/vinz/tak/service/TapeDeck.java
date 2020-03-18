@@ -27,7 +27,7 @@ import static org.springframework.util.StringUtils.isEmpty;
 @Scope(SCOPE_PROTOTYPE)
 public class TapeDeck extends AbstractService {
 
-    public static final long EVENT_TIME_MIN_DELTA_millis = 10;
+    public static final long EVENT_TIME_MIN_DELTA_millis = 100;
 
     public static final String DEVICE_OPTION = "-s";
 

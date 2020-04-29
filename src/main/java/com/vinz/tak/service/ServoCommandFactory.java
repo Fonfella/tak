@@ -1,17 +1,15 @@
 package com.vinz.tak.service;
 
+import com.vinz.tak.model.Command;
+import com.vinz.tak.model.ServoCommand;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import com.vinz.tak.model.Command;
-import com.vinz.tak.model.ServoCommand;
 
 
 @Component
@@ -23,17 +21,37 @@ public class ServoCommandFactory
     @Value("${tak.servo.id.b:b}")
     public String SERVO_ID_B;
 
+    @Value("${tak.servo.id.c:c}")
+    public String SERVO_ID_C;
+
+    @Value("${tak.servo.id.d:d}")
+    public String SERVO_ID_D;
+
     @Value("${tak.servo.a.start:0.0}")
     private float SERVO_A_START;
 
     @Value("${tak.servo.b.start:1.0}")
     private float SERVO_B_START;
 
+    @Value("${tak.servo.c.start:0.0}")
+    private float SERVO_C_START;
+
+    @Value("${tak.servo.d.start:1.0}")
+    private float SERVO_D_START;
+
     @Value("${tak.servo.a.end:1.0}")
     private float SERVO_A_END;
 
     @Value("${tak.servo.b.end:0.0}")
     private float SERVO_B_END;
+
+    //verificare inclinazione servo per posGrande
+    @Value("${tak.servo.c.end:1.0}")
+    private float SERVO_C_END;
+
+    //verificare inclinazione servo per posGrande
+    @Value("${tak.servo.d.end:0.0}")
+    private float SERVO_D_END;
 
     @Value("${tak.servo.down.time:1000}")
     private short SERVO_DOWN_TIME;
@@ -62,9 +80,15 @@ public class ServoCommandFactory
     {
         startPositions.put(SERVO_ID_A, SERVO_A_START);
         startPositions.put(SERVO_ID_B, SERVO_B_START);
+        //AGGIUNTI C e D START
+        startPositions.put(SERVO_ID_C, SERVO_C_START);
+        startPositions.put(SERVO_ID_D, SERVO_D_START);
 
         endPositions.put(SERVO_ID_A, SERVO_A_END);
         endPositions.put(SERVO_ID_B, SERVO_B_END);
+        //AGGIUNTI C e D END
+        endPositions.put(SERVO_ID_C, SERVO_C_END);
+        endPositions.put(SERVO_ID_D, SERVO_D_END);
     }
 
     public List<ServoCommand> buildCommand(Command command)

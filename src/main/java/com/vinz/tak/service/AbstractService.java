@@ -14,9 +14,9 @@ public abstract class AbstractService
 
     protected void waitMs(long millis)
     {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException ignored) {
+            try {
+                Thread.sleep(millis);
+            } catch (InterruptedException ignored) {
         }
     }
 }

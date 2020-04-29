@@ -1,18 +1,16 @@
 package com.vinz.tak.service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
+import com.vinz.pololu.api.ServoController;
+import com.vinz.tak.model.Command;
+import com.vinz.tak.model.ServoCommand;
+import com.vinz.tak.pool.ServoControllerDiscovery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.vinz.tak.model.Command;
-import com.vinz.tak.model.ServoCommand;
-import com.vinz.tak.pool.ServoControllerDiscovery;
-
-import com.vinz.pololu.api.ServoController;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 
 @Component
@@ -57,6 +55,16 @@ public class TakService extends AbstractService
         }
 
         if (servo.equals(servoCommandFactory.SERVO_ID_B))
+        {
+            return;
+        }
+
+        if (servo.equals(servoCommandFactory.SERVO_ID_C))
+        {
+            return;
+        }
+
+        if (servo.equals(servoCommandFactory.SERVO_ID_D))
         {
             return;
         }

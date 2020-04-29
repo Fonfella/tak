@@ -32,16 +32,16 @@ dependencies {
     compile project(":java-lib-pololu")
 
     // Test deps
-    testImplementation 'org.junit.jupiter:junit-jupiter-com.vinz.pololu.api:5.5.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.5.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
-
-    testImplementation "org.mockito:mockito-core:3.1.0"
-    testImplementation 'org.mockito:mockito-junit-jupiter:3.1.0'
-
-    testImplementation 'org.assertj:assertj-core:3.14.0'
+//    testImplementation 'org.junit.jupiter:junit-jupiter-com.vinz.pololu.api:5.5.2'
+//    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.5.2'
+//    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
+//
+//    testImplementation "org.mockito:mockito-core:3.1.0"
+//    testImplementation 'org.mockito:mockito-junit-jupiter:3.1.0'
+//
+//    testImplementation 'org.assertj:assertj-core:3.14.0'
 }
-
-test {
-    useJUnitPlatform()
-}
+//
+//test {
+//    useJUnitPlatform()
+//}

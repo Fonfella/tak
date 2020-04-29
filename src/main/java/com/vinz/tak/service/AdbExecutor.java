@@ -14,7 +14,7 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROT
 @Scope(SCOPE_PROTOTYPE)
 public class AdbExecutor extends AbstractService {
 
-    @Value("${adb.path:c:\\Users\\TarriconeV\\platform-tools\\adb.exe}")
+    @Value("${adb.path:C:\\Users\\donzella\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb.exe}")
     public String adb;
 
     @Autowired

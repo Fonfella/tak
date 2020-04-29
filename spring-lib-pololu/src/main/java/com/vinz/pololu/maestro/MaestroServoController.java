@@ -1,7 +1,6 @@
 package com.vinz.pololu.maestro;
 
 import com.vinz.pololu.api.ServoController;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import pololu.maestro.PololuMaestroServoCard;
@@ -21,6 +20,8 @@ public class MaestroServoController implements ServoController
     static {
         servoChannels.put("a", (short) 0);
         servoChannels.put("b", (short) 1);
+        servoChannels.put("c", (short) 2);
+        servoChannels.put("d", (short) 3);
     }
 
     private PololuMaestroServoCard servoCard;

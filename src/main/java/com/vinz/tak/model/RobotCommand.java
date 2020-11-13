@@ -8,5 +8,5 @@ import javax.validation.constraints.NotEmpty;
 public class RobotCommand {
 
     @NotEmpty
-    String stoCazzo;
+    String robotCommand;
 }

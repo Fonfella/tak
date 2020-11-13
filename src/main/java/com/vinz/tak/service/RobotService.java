@@ -3,6 +3,7 @@ package com.vinz.tak.service;
 import com.vinz.tak.model.ExecResult;
 import com.vinz.tak.model.ProcessOptions;
 import com.vinz.tak.model.RobotCommand;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,12 +13,41 @@ public class RobotService extends AbstractService {
     @Autowired
     private ProcessExecutor processExecutor;
 
-    public RobotCommand sendRobotCommand(RobotCommand robotCommand) {
+    boolean stop = false;
+    String timeout1 = "TIMEOUT 1";
+    String read = "MBSTR RD";
+    String output = "TYPE Output.txt";
+
+
+    public JSONObject sendRobotCommand(RobotCommand robotCommand) {
         ProcessOptions options = new ProcessOptions();
-        String cazzo = robotCommand.getStoCazzo();
-        ExecResult dir = processExecutor.shellExec(options, cazzo);
-        log.info(String.valueOf(dir));
+        JSONObject obj = new JSONObject();
+        ExecResult dir = processExecutor.shellExec(options, robotCommand.getRobotCommand());
+        String result1 = (String.valueOf(dir));
+ //       log.info(result1);
         log.info("command execute" + robotCommand);
-        return robotCommand;
+        while (stop == false)
+        {
+          processExecutor.shellExec(options, timeout1);
+          processExecutor.shellExec(options, read);
+          ExecResult dir1 = processExecutor.shellExec(options, output);
+          log.info(String.valueOf(dir1.getLines()));
+          String[] stArr = String.valueOf(dir1.getLines()).split("line=");
+              if (stArr[1].contains("READY"))
+              {
+                  stop = true;
+                  result1 = "READY";
+                  obj.put("info", "Controller is ready!");
+              } if (stArr[1].contains("Server is not responding."))
+              {
+                  stop = true;
+                  result1="Server is not responding!";
+                  obj.put("info", "ERROR, Please check the connection with the server or that the server is turned on");
+           }
+        }
+        stop = false;
+        String result = (result1);
+        obj.put("easyModBusStatus", result1);
+        return obj;
     }
 }

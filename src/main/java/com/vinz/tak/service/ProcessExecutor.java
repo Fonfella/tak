@@ -21,6 +21,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
+import java.io.File;
 
 import static java.lang.System.currentTimeMillis;
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
@@ -75,6 +76,8 @@ public class ProcessExecutor extends AbstractService {
 
         ProcessBuilder processBuilder = new ProcessBuilder();
         processBuilder.command(cli);
+        processBuilder.directory(new File("C://MBSimulator"));
+        //   processBuilder.command("C:\\MBSimulator\\SEQUENZA.bat");
 
         log.info("Executing " + Arrays.deepToString(cli));
 

@@ -21,8 +21,7 @@ public class ReceiptService<i> extends AbstractService {
     String pathReceipt;
     String val;
     String[] checkObject ;
-    String val2 = "VERONA ANTICA SAS";
-
+    String command ;
 
     public JSONObject sendReceiptCommand(ReceiptCommand receiptCommand) {
         JSONObject obj = new JSONObject();
@@ -31,39 +30,35 @@ public class ReceiptService<i> extends AbstractService {
         image.setLanguage(("eng"));
         pathReceipt = path+receiptCommand.getPathReceipt();
         val = receiptCommand.getReceiptValue();
+        command = receiptCommand.getReceiptCommand();
         checkObject = val.split(",");
-        if (receiptCommand.getReceiptCommand().contains("check")) {
             try {
                 String str = image.doOCR(new File(pathReceipt));
-                log.debug("Data from image: " + str);
-                if (str != null) {
-                    if (str.contains(val2)) {
+                if (command.equals("check")) {
+                    log.info(str);
+                    obj.put("image", str);
+                }
+                  if (str != null) {
                         for (int i = 0; i < checkObject.length; i++) {
                             String s = checkObject[i];
                             if (str.contains(s)) {
-                                log.info("objectfinder number=" + i + " value=" + s + " Status: Passed");
-                                obj.put("valuePass" + i, s);
+                                log.info("valuePass N." + i + " - " + s );
+                                obj.put("value N." + i +"-PASS", s);
                             } else {
-                                log.info("objectfinder number=" + i + " value=" + s + " Status: Failed");
-                                obj.put("valueFailed" + i, s);
+                                log.info("valueFailed N." + i + " - " + s );
+                                obj.put("value N." + i + "-FAILED", s);
                             }
                         }
-                    }
-                } else log.info("Error");
-            } catch (TesseractException e) {
+                  } else log.info("Error");
+                } catch (TesseractException e) {
                 e.printStackTrace();
                 obj.put("info","Error");
-            }
-
+                   }
             if (obj.toString().contains("valueFailed")) {
                 obj.put("info", "Check your Receipt, something goes wrong");
-
             } else if (obj.toString().contains("valuePass")) {
                 obj.put("info", "Good Check, Receipt Good");
-
             }
-
-        }
         return obj;
     }
 }

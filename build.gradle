@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.2.2.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'application'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
 
 group = 'com.vinz'
@@ -62,3 +63,4 @@ dependencies {
 //test {
 //    useJUnitPlatform()
 }
+apply plugin: 'com.github.johnrengelman.shadow'

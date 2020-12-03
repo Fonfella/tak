@@ -31,6 +31,9 @@ public class OtpYapService<i> extends AbstractService {
         String el = ((ChromeDriver) driver)
                 .findElementByXPath("//*['/html/body/text()']")
                 .getText();
+
+
+        //implementazione finta da rivedere quando la pagina sarà visibile al momento bloccata
         String[] result = el.split("39");
         log.info(result[1]);
 

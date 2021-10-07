@@ -14,12 +14,12 @@ public class RobotService extends AbstractService {
     private ProcessExecutor processExecutor;
 
     boolean stop = false;
-    String timeout1 = "TIMEOUT 1";
+    String timeout1 = "TIMEOUT 10";
     String read = "MBSTR RD";
     String output = "TYPE Output.txt";
 
 
-    public JSONObject sendRobotCommand(RobotCommand robotCommand) {
+    public JSONObject sendRobotCommand(RobotCommand robotCommand) throws InterruptedException {
         ProcessOptions options = new ProcessOptions();
         JSONObject obj = new JSONObject();
         ExecResult dir = processExecutor.shellExec(options, robotCommand.getRobotCommand());
@@ -28,6 +28,7 @@ public class RobotService extends AbstractService {
         log.info("command execute" + robotCommand);
         while (stop == false)
         {
+          Thread.sleep(5000)  ;
           processExecutor.shellExec(options, timeout1);
           processExecutor.shellExec(options, read);
           ExecResult dir1 = processExecutor.shellExec(options, output);

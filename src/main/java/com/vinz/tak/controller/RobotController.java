@@ -19,8 +19,7 @@ public class RobotController extends AbstractController {
 
 
     @PostMapping("/robot")
-    public JSONObject commandR(@Valid @RequestBody RobotCommand robotCommand) throws JsonProcessingException
-    {
+    public JSONObject commandR(@Valid @RequestBody RobotCommand robotCommand) throws JsonProcessingException, InterruptedException {
         log.info(robotCommand.toString());
         return robotService.sendRobotCommand(robotCommand);
     }

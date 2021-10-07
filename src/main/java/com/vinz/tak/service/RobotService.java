@@ -14,7 +14,7 @@ public class RobotService extends AbstractService {
     private ProcessExecutor processExecutor;
 
     boolean stop = false;
-    String timeout1 = "TIMEOUT 10";
+    String timeout1 = "TIMEOUT 1";
     String read = "MBSTR RD";
     String output = "TYPE Output.txt";
 
@@ -26,25 +26,22 @@ public class RobotService extends AbstractService {
         String result1 = (String.valueOf(dir));
  //       log.info(result1);
         log.info("command execute" + robotCommand);
-        while (stop == false)
-        {
+        while (stop == false) {
           Thread.sleep(5000);
           processExecutor.shellExec(options, timeout1);
           processExecutor.shellExec(options, read);
           ExecResult dir1 = processExecutor.shellExec(options, output);
           log.info(String.valueOf(dir1.getLines()));
           String[] stArr = String.valueOf(dir1.getLines()).split("line=");
-              if (stArr[1].contains("READY"))
-              {
+              if (stArr[1].contains("READY")) {
                   stop = true;
                   result1 = "READY";
                   obj.put("info", "Controller is ready!");
-              } if (stArr[1].contains("Server is not responding."))
-              {
+              } if (stArr[1].contains("Server is not responding.")) {
                   stop = true;
                   result1="Server is not responding!";
                   obj.put("info", "ERROR, Please check the connection with the server or that the server is turned on");
-           }
+             }
         }
         stop = false;
         String result = (result1);

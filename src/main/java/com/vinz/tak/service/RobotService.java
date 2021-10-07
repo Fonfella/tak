@@ -28,7 +28,7 @@ public class RobotService extends AbstractService {
         log.info("command execute" + robotCommand);
         while (stop == false)
         {
-          Thread.sleep(5000)  ;
+          Thread.sleep(5000);
           processExecutor.shellExec(options, timeout1);
           processExecutor.shellExec(options, read);
           ExecResult dir1 = processExecutor.shellExec(options, output);

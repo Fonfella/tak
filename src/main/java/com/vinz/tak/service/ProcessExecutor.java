@@ -76,8 +76,8 @@ public class ProcessExecutor extends AbstractService {
 
         ProcessBuilder processBuilder = new ProcessBuilder();
         processBuilder.command(cli);
-        processBuilder.directory(new File("C://MBSimulator"));
-        //   processBuilder.command("C:\\MBSimulator\\SEQUENZA.bat");
+        processBuilder.directory(new File("src/main/resources/MBSimulator"));
+
 
         log.info("Executing " + Arrays.deepToString(cli));
 

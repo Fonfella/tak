@@ -1,0 +1,26 @@
+MBSTR WR PSH A1
+
+TIMEOUT 1
+
+MBSTR RD
+TYPE Output.txt
+
+TIMEOUT 1
+
+MBSTR RD
+TYPE Output.txt
+
+TIMEOUT 1
+
+MBSTR RD
+TYPE Output.txt
+
+TIMEOUT 1
+
+MBSTR RD
+TYPE Output.txt
+
+TIMEOUT 1
+
+MBSTR RD
+TYPE Output.txt

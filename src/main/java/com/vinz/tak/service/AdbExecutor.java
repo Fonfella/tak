@@ -14,7 +14,7 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROT
 @Scope(SCOPE_PROTOTYPE)
 public class AdbExecutor extends AbstractService {
 
-    @Value("${adb.path:C:\\Users\\donzella.TXTGROUP\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb.exe}")
+    @Value("${adb.path:adb.exe}")
     public String adb;
 
     @Autowired
@@ -26,7 +26,13 @@ public class AdbExecutor extends AbstractService {
     public ExecResult adb(ProcessOptions options, String... cli) {
 
         String[] newcli = processUtils.prepender(cli, adb);
+        if (System.getProperty("os.name").toLowerCase().startsWith("windows")==true ) {
+            log.info("sono windows");
 
+        } else {
+            log.info("Non sono windows ahahha");
+            adb = "altro/path/to/set";
+        }
         return processExecutor.exec(options, newcli);
     }
 }

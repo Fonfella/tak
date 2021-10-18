@@ -19,13 +19,13 @@ public class TapController extends AbstractController {
     @Autowired
     private TapService tapService;
 
-    @PostMapping("/tap/record")
+    @PostMapping("/tap/record")//body con wait tempo attesa fino al completamento azione
     public Tape tap(@Valid @RequestBody StartRecord startRecord) throws InterruptedException, ExecutionException, IOException {
 
         return tapService.record(startRecord);
     }
 
-    @PostMapping("/tap/play")
+    @PostMapping("/tap/play") //body con data e file compresso prodotto dal record per riproduzione
     public Tape tap(@Valid @RequestBody Tape tape) throws InterruptedException, ExecutionException, IOException {
 
         return tapService.play(tape);

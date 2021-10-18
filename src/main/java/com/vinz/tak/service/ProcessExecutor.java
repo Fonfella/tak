@@ -40,6 +40,8 @@ public class ProcessExecutor extends AbstractService {
     @Value("${events.waitfor.period:100}")
     public long waiterPeriodMillis;
 
+    String machine = "";
+
     private AtomicLong lastLineTime = new AtomicLong(0);
 
     private long waitFor;
@@ -68,7 +70,12 @@ public class ProcessExecutor extends AbstractService {
     public ExecResult shellExec(ProcessOptions options, String... cli) {
 
         String[] shcli = processUtils.shellPrepender(cli);
-
+        if (shcli[0].equals("cmd.exe")) {
+            machine = "windows";
+        } else {
+            log.info("Machine is not Windows");
+            machine = "macOSX";
+        }
         return exec(options, shcli);
     }
 
@@ -76,9 +83,16 @@ public class ProcessExecutor extends AbstractService {
 
         ProcessBuilder processBuilder = new ProcessBuilder();
         processBuilder.command(cli);
-    //    processBuilder.directory(new File("src/main/resources/MBSimulator"));
-        processBuilder.directory(new File("C:/MBSimulator"));
 
+
+    //    processBuilder.directory(new File("src/main/resources/MBSimulator"));
+        if ((cli[0].contains("cmd"))) {
+            if (machine.equals("windows")) {
+                processBuilder.directory(new File("C:/MBSimulator"));
+            } else {
+                processBuilder.directory(new File("other/path/to/set"));
+            }
+        }
 
 
         log.info("Executing " + Arrays.deepToString(cli));

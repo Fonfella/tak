@@ -90,7 +90,7 @@ public class ProcessExecutor extends AbstractService {
             if (machine.equals("windows")) {
                 processBuilder.directory(new File("C:/MBSimulator"));
             } else {
-                processBuilder.directory(new File("other/path/to/set"));
+                processBuilder.directory(new File("/Users/testfactory/MBSimulator"));
             }
         }
 

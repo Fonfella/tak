@@ -31,7 +31,7 @@ public class AdbExecutor extends AbstractService {
 
         } else {
             log.info("Non sono windows ahahha");
-            adb = "altro/path/to/set";
+            adb = "/usr/local/share/android-sdk/platform-tools/adb";
         }
         return processExecutor.exec(options, newcli);
     }

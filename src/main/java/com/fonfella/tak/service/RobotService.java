@@ -37,7 +37,7 @@ public class RobotService extends AbstractService {
                   stop = true;
                   result1 = "READY";
                   obj.put("info", "Controller is ready!");
-              } if (stArr[1].contains("Server is not responding.")) {
+              } if (stArr[1].contains("not responding")) {
                   stop = true;
                   result1="Server is not responding!";
                   obj.put("info", "ERROR, Please check the connection with the server or that the server is turned on");

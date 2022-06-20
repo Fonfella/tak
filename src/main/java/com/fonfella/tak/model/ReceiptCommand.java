@@ -10,8 +10,9 @@ public class ReceiptCommand {
 
     String receiptCommand;
 
-    @NotEmpty
-    String pathReceipt;
+    //decommentare se dovesse servire un path differente per check scontrino
+   // @NotEmpty
+   // String pathReceipt;
 
     @NotEmpty
     String receiptValue;

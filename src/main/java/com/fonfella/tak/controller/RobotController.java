@@ -17,6 +17,12 @@ public class RobotController extends AbstractController {
     @Autowired
     private RobotService robotService;
 
+    //esempio
+//    http://localhost:8080/robot
+//    {
+//        "robotCommand":"MBSTR WR PSH D7 @F" esempio di azione psh push d7 casella come battaglianavale @F frontale @R schermo posteriore
+//    }
+
 
     @PostMapping("/robot")
     public JSONObject commandR(@Valid @RequestBody RobotCommand robotCommand) throws JsonProcessingException, InterruptedException {

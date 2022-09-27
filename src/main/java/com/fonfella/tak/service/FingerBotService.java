@@ -1,5 +1,6 @@
 package com.fonfella.tak.service;
 
+import com.fonfella.tak.model.ExecResult;
 import com.fonfella.tak.model.FingerBotCommand;
 import com.fonfella.tak.model.ProcessOptions;
 import com.fonfella.tak.util.CreateCapability;
@@ -33,8 +34,7 @@ public class FingerBotService extends AbstractService {
     public JSONObject sendFingerBot(FingerBotCommand fingerBotCommand) throws InterruptedException {
         ProcessOptions options = new ProcessOptions();
         JSONObject obj = new JSONObject();
-
-        ;
+        processExecutor.shellExec(options, "appium");
 
         try {
             openApp(fingerBotCommand);
@@ -53,6 +53,7 @@ public class FingerBotService extends AbstractService {
         } else {
             obj.put("Risultato", result);
         }
+        processExecutor.shellExec(options, "taskkill /F /IM appium.exe");
         return obj;
     }
 
@@ -69,11 +70,8 @@ public class FingerBotService extends AbstractService {
         fingerReady.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.TextView[@text = 'Idling']")));
         driver.findElement(By.id("com.release.adaprox.controller2:id/v2_general_device_card_device_status")).click();
         driver.closeApp();
-
         log.info("Azione Eseguita");
         result="Azione Eseguita";
         return result;
     }
-
-
 }

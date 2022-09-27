@@ -29,12 +29,14 @@ public class ReceiptService<i> extends AbstractService {
     String deleteReicept = "true";
 
 
-    int i;
+   // int i;
+
+    private static final int FLIP_VERTICAL = 1;
 
     public JSONObject sendReceiptCommand(ReceiptCommand receiptCommand) throws IOException {
         JSONObject obj = new JSONObject();
         ITesseract image = new Tesseract();
-        image.setDatapath("tessdata");
+        image.setDatapath("C:\\Users\\mdonzella\\IdeaProjects\\test-automation-framework\\tessdata");
         image.setLanguage("ita");
         //cambiato path verifica funzionamento
        // String folderPath = "C:\\CartellaLavoro\\scontrino\\provaScontrino.jpeg";
@@ -44,7 +46,7 @@ public class ReceiptService<i> extends AbstractService {
 
         // creare classe
 //parte uso immagine ultima modification
-        String dirPath = "C:\\CartellaLavoro\\scontrino";
+        String dirPath = "C:\\cartellaLavoro\\scontrino\\scontrino";
         File dir = new File(dirPath);
         File[] files = dir.listFiles();
         File lastModifiedFile = files[0];
@@ -58,6 +60,9 @@ public class ReceiptService<i> extends AbstractService {
                 lastModifiedFile = files[i];
             }
         }
+
+
+
 
         //parte per rotazione
         BufferedImage bm = ImageIO.read(new File(String.valueOf(lastModifiedFile)));
@@ -74,14 +79,15 @@ public class ReceiptService<i> extends AbstractService {
         final AffineTransformOp rotateOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
         rotateOp.filter(bm, rotatedImage);
 
-        File reiceptRotated = new File("C:\\CartellaLavoro\\scontrino\\rotatedImage.jpg");
+        File reiceptRotated = new File("C:\\cartellaLavoro\\scontrino\\scontrino\\rotatedImage.jpg");
         ImageIO.write(rotatedImage, "JPG", new File(String.valueOf(reiceptRotated)));
         //fine aggiunta
 
         values = receiptCommand.getReceiptValue();
 
         try {
-            String str = image.doOCR(new File("C:\\CartellaLavoro\\scontrino\\rotatedImage.jpg"));
+            String str = image.doOCR(new File("C:\\CartellaLavoro\\scontrino\\scontrino\\rotatedImage.jpg"));
+            log.info(str);
             if (viewReceipt.equals("false")) {
                 log.info("Data from Image is: " + str);
             }

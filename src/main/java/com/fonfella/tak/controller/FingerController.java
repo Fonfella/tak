@@ -18,10 +18,12 @@ public class FingerController extends AbstractController {
     @Autowired
     private FingerBotService fingerBotService;
 
-    //esempio
-//    http://localhost:8080/robot
+    //esempio richiede installazione del software sul device e setup corretto
+//    http://localhost:8080/fingerBot
 //    {
-//        "robotCommand":"MBSTR WR PSH D7 @F" esempio di azione psh push d7 casella come battaglianavale @F frontale @R schermo posteriore
+//        "deviceName": "Fonfella S10",
+//        "platformVersion": "12.0.0",
+//        "udid": "RF8M53XN05H"
 //    }
 
 

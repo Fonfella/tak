@@ -10,6 +10,5 @@ public class FingerBotCommand {
     String deviceName;
     String platformVersion;
     String udid;
-
-
+    String url;
 }

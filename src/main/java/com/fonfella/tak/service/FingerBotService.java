@@ -34,7 +34,7 @@ public class FingerBotService extends AbstractService {
     public JSONObject sendFingerBot(FingerBotCommand fingerBotCommand) throws InterruptedException {
         ProcessOptions options = new ProcessOptions();
         JSONObject obj = new JSONObject();
-        processExecutor.shellExec(options, "appium");
+    //    processExecutor.shellExec(options, "appium");
 
         try {
             openApp(fingerBotCommand);
@@ -60,7 +60,14 @@ public class FingerBotService extends AbstractService {
 
     public String openApp(FingerBotCommand fingerBotCommand) throws MalformedURLException, InterruptedException {
         CreateCapability cc = new CreateCapability();
-        URL url = new URL("http://127.0.0.1:4723/wd/hub");
+        URL url;
+        if (fingerBotCommand.getUrl() != null) {
+            String AppiumUrl = "http://"+ fingerBotCommand.getUrl()+":4723/wd/hub";
+            url = new URL(AppiumUrl);
+        } else {
+            url = new URL("http://127.0.0.1:4723/wd/hub");
+        }
+
         driver = new AppiumDriver<>(url, cc.getCapabilities(fingerBotCommand.getDeviceName(),
                                                             fingerBotCommand.getPlatformVersion(),
                                                             fingerBotCommand.getUdid()));

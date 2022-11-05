@@ -34,7 +34,7 @@ public class FingerBotService extends AbstractService {
     public JSONObject sendFingerBot(FingerBotCommand fingerBotCommand) throws InterruptedException {
         ProcessOptions options = new ProcessOptions();
         JSONObject obj = new JSONObject();
-    //    processExecutor.shellExec(options, "appium");
+        processExecutor.shellExec(options, "appium --port 4724");
 
         try {
             openApp(fingerBotCommand);
@@ -45,7 +45,7 @@ public class FingerBotService extends AbstractService {
             result = "Error!!!";
             getCause = e.getCause().toString();
             getMessage = e.getMessage();
-
+            processExecutor.shellExec(options, "taskkill /F /IM appium.exe");
         }
         if (result == "Error!!!") {
             obj.put("Causa", getCause);
@@ -62,10 +62,10 @@ public class FingerBotService extends AbstractService {
         CreateCapability cc = new CreateCapability();
         URL url;
         if (fingerBotCommand.getUrl() != null) {
-            String AppiumUrl = "http://"+ fingerBotCommand.getUrl()+":4723/wd/hub";
+            String AppiumUrl = "http://"+ fingerBotCommand.getUrl()+":4724/wd/hub";
             url = new URL(AppiumUrl);
         } else {
-            url = new URL("http://127.0.0.1:4723/wd/hub");
+            url = new URL("http://127.0.0.1:4724/wd/hub");
         }
 
         driver = new AppiumDriver<>(url, cc.getCapabilities(fingerBotCommand.getDeviceName(),
@@ -73,6 +73,7 @@ public class FingerBotService extends AbstractService {
                                                             fingerBotCommand.getUdid()));
 
         driver.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
+       // driver.findElement(By.id("com.release.adaprox.controller2:id/v2_general_device_card_device_name"));
         WebDriverWait fingerReady = new WebDriverWait(driver, 10);
         fingerReady.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.TextView[@text = 'Idling']")));
         driver.findElement(By.id("com.release.adaprox.controller2:id/v2_general_device_card_device_status")).click();

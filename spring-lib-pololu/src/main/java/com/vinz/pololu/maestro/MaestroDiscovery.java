@@ -11,7 +11,7 @@ import pololu.usb.exception.UsbRuntimeException;
 
 
 @Component
-public abstract class MaestroDiscovery extends AbstractDiscovery
+public abstract class MaestroDiscovery extends com.fonfella.pololu.maestro.AbstractDiscovery
 {
     private PololuMaestroServoCard servoCard;
 

@@ -2,7 +2,7 @@ plugins {
     id 'java-library'
 }
 
-group 'com.vinz'
+group 'com.fonfella'
 version '0.1.0'
 
 sourceCompatibility = 1.8

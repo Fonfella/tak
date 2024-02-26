@@ -1,7 +1,7 @@
-package com.vinz.tape.autoconfiguration;
+package com.fonfella.tape.autoconfiguration;
 
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan("com.vinz.tape")
+@ComponentScan("com.fonfella.tape")
 public class TapeConfiguration {
 }

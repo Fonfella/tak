@@ -1,4 +1,4 @@
-package com.vinz.tape.model;
+package com.fonfella.tape.model;
 
 import lombok.Builder;
 import lombok.Data;

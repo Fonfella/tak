@@ -4,7 +4,7 @@ plugins {
     id 'io.spring.dependency-management'
 }
 
-group 'com.vinz'
+group 'com.fonfella'
 version '0.1.0'
 
 bootJar {
@@ -32,7 +32,7 @@ dependencies {
     compile project(":java-lib-pololu")
 
     // Test deps
-//    testImplementation 'org.junit.jupiter:junit-jupiter-com.vinz.pololu.api:5.5.2'
+//    testImplementation 'org.junit.jupiter:junit-jupiter-com.fonfella.pololu.api:5.5.2'
 //    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.5.2'
 //    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
 //

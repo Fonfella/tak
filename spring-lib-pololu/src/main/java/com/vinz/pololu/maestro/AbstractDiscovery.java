@@ -1,6 +1,6 @@
-package com.vinz.pololu.maestro;
+package com.fonfella.pololu.maestro;
 
-import com.vinz.pololu.api.Discovery;
+import com.fonfella.pololu.api.Discovery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

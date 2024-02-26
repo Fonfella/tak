@@ -1,4 +1,4 @@
-package com.vinz.pololu.api;
+package com.fonfella.pololu.api;
 
 public interface Discovery
 {

@@ -1,7 +1,7 @@
-package com.vinz.tape.factory;
+package com.fonfella.tape.factory;
 
-import com.vinz.tape.model.Event;
-import com.vinz.tape.model.RawEvent;
+import com.fonfella.tape.model.Event;
+import com.fonfella.tape.model.RawEvent;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.vinz.tape.autoconfiguration.TapeConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.fonfella.tape.autoconfiguration.TapeConfiguration

@@ -1,6 +1,6 @@
-package com.vinz.pololu.maestro;
+package com.fonfella.pololu.maestro;
 
-import com.vinz.pololu.api.ServoController;
+import com.fonfella.pololu.api.ServoController;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import pololu.maestro.PololuMaestroServoCard;

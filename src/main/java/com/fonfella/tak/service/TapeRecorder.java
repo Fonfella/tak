@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static com.vinz.tape.factory.EventFactory.EVENT_PREFIX;
+import static com.fonfella.tape.factory.EventFactory.EVENT_PREFIX;
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 import static org.springframework.util.StringUtils.isEmpty;
 

@@ -1,7 +1,7 @@
 package com.fonfella.tak.service;
 
 import com.fonfella.tak.pool.ServoControllerDiscovery;
-import com.vinz.pololu.api.ServoController;
+import com.fonfella.pololu.api.ServoController;
 import com.fonfella.tak.model.Command;
 import com.fonfella.tak.model.ServoCommand;
 import org.springframework.beans.factory.annotation.Autowired;

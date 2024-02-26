@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.vinz.pololu.autoconfiguration.PololuConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.fonfella.pololu.autoconfiguration.PololuConfiguration

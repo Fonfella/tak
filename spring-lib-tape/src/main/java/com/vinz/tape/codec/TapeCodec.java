@@ -1,6 +1,6 @@
-package com.vinz.tape.codec;
+package com.fonfella.tape.codec;
 
-import com.vinz.tape.model.Event;
+import com.fonfella.tape.model.Event;
 import org.springframework.stereotype.Component;
 
 import java.io.*;

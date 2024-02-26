@@ -7,7 +7,7 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.vinz.pololu.api.ServoController;
+import com.fonfella.pololu.api.ServoController;
 
 
 @Component

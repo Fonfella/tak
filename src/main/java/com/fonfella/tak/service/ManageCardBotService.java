@@ -134,15 +134,17 @@ public class ManageCardBotService extends AbstractService {
             } catch (Exception ei) {
              //   System.out.println("L'elemento 'Sostituisci' non è presente.");
             }
+            try {
+
             // Esegui uno swipe verso il basso
             swipeDown((AndroidDriver) driver);
             driver.findElement(By.xpath("//android.widget.TextView[@text='CDET v2.3 - Revision B – Card 05']")).click();
             Thread.sleep(time);
-            try {
                 driver.terminateApp(circuito);
             } catch (Exception e) {
                 e.getMessage();
                 processExecutor.shellExec(options, commandDisableNFc);
+                driver.close();
                 log.info("NFC disabilitato sul device udid: "+manageCardCommand.getUdid());
             }
         }
@@ -154,6 +156,7 @@ public class ManageCardBotService extends AbstractService {
         result="Azione Eseguita";
         return result;
     }
+
 
     // Metodo per eseguire uno swipe verso il basso
     public static void swipeDown(AndroidDriver driver) {

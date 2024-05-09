@@ -19,8 +19,11 @@ import org.springframework.stereotype.Component;
 
 
 import java.io.IOException;
-import java.net.MalformedURLException;
+import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -34,20 +37,41 @@ public class ManageCardBotService extends AbstractService {
     String result;
     String getCause;
     String getMessage;
+    String url;
 
     public JSONObject sendManageCard(ManageCardCommand manageCardCommand) throws InterruptedException, IOException {
         ProcessOptions options = new ProcessOptions();
         JSONObject obj = new JSONObject();
+        System.setProperty("ADB_HOME", "/Users/testfactory/Desktop/takServer/platform-tools");
+
+
+        // Leggi l'eseguibile adb dalle risorse
+        InputStream adbInputStream = getClass().getResourceAsStream("/adb");
+
+        // Crea un file temporaneo per l'eseguibile adb
+        Path tempAdbPath = Files.createTempFile("adb", "");
+        tempAdbPath.toFile().deleteOnExit();
+
+        // Copia l'eseguibile adb dalle risorse nel file temporaneo
+        Files.copy(adbInputStream, tempAdbPath, StandardCopyOption.REPLACE_EXISTING);
+
+        // Rendi il file temporaneo eseguibile
+        tempAdbPath.toFile().setExecutable(true);
+
+        // Ora puoi accedere a questa variabile di ambiente all'interno del tuo programma Java
+        String androidHome = System.getProperty("ANDROID_HOME");
+        String adbHome = System.getProperty("ADB_HOME");
+      //  System.out.println("Percorso ADB: " + adbHome+"& :"+androidHome);
       //  processExecutor.shellExec(options, "appium");
-        ProcessBuilder pb = new ProcessBuilder("appium", "--port", "4724");
-        Process process = pb.start();
+   //     ProcessBuilder pb = new ProcessBuilder("appium", "--port", "4724");
+    //    Process process = pb.start();
         Thread.sleep(4000);
-        String commandActivateNFc = "adb -s " + manageCardCommand.getUdid() + " shell service call nfc 7";
-        String commandDisableNFc = "adb -s " + manageCardCommand.getUdid() + " shell service call nfc 6";
+        String commandActivateNFc = " -s " + manageCardCommand.getUdid() + " shell service call nfc 7";
+        String commandDisableNFc = " -s " + manageCardCommand.getUdid() + " shell service call nfc 6";
 
         try {
-            openApp(manageCardCommand, commandActivateNFc, commandDisableNFc);
-            process.destroy();
+            openApp(manageCardCommand, commandActivateNFc, commandDisableNFc, tempAdbPath);
+ //           process.destroy();
         } catch (Exception e) {
             log.info(e.getCause().toString());
             log.info(e.getMessage());
@@ -56,7 +80,7 @@ public class ManageCardBotService extends AbstractService {
             getCause = e.getCause().toString();
             getMessage = e.getMessage();
      //       processExecutor.shellExec(options, "pkill -f appium -- -p 4724");
-            process.destroy();
+      //      process.destroy();
         }
         if (result == "Error!!!") {
             obj.put("Causa", getCause);
@@ -65,13 +89,13 @@ public class ManageCardBotService extends AbstractService {
             obj.put("Risultato", result);
         }
  //       processExecutor.shellExec(options, "pkill -f appium -- -p 4724");
-        process.destroy();
+  //      process.destroy();
  //       String command = "adb -s " + fingerBotCommand.getUdid() + " shell service call nfc 7";
         return obj;
     }
 
 
-    public String openApp(ManageCardCommand manageCardCommand, String commandActivateNFc, String commandDisableNFc) throws MalformedURLException, InterruptedException {
+    public String openApp(ManageCardCommand manageCardCommand, String commandActivateNFc, String commandDisableNFc, Path tempAdbPath) throws IOException, InterruptedException {
         CreateCapability cc = new CreateCapability();
         URL url;
         if (manageCardCommand.getUrl() != null) {
@@ -92,8 +116,8 @@ public class ManageCardBotService extends AbstractService {
 
         int time = manageCardCommand.getTimeWait();
 
-        ProcessOptions options = new ProcessOptions();
-        processExecutor.shellExec(options, commandActivateNFc);
+        //ProcessOptions options = new ProcessOptions();
+        Process process = Runtime.getRuntime().exec(tempAdbPath.toString() + commandActivateNFc);
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
        // driver.findElement(By.id("com.release.adaprox.controller2:id/v2_general_device_card_device_name"));
@@ -119,7 +143,7 @@ public class ManageCardBotService extends AbstractService {
                 driver.terminateApp(circuito);
             } catch (Exception e) {
                 e.getMessage();
-                processExecutor.shellExec(options, commandDisableNFc);
+                Process process2 = Runtime.getRuntime().exec(tempAdbPath.toString() + commandDisableNFc);
                 log.info("NFC disabilitato sul device udid: "+manageCardCommand.getUdid());
                 driver.terminateApp(circuito);
             }
@@ -137,19 +161,19 @@ public class ManageCardBotService extends AbstractService {
             try {
 
             // Esegui uno swipe verso il basso
-            swipeDown((AndroidDriver) driver);
-            driver.findElement(By.xpath("//android.widget.TextView[@text='CDET v2.3 - Revision B – Card 05']")).click();
+      //      swipeDown((AndroidDriver) driver);
+            driver.findElement(By.xpath("//android.widget.TextView[@text='CDET v2.3 - Revision B – Card 01']")).click();
             Thread.sleep(time);
                 driver.terminateApp(circuito);
             } catch (Exception e) {
                 e.getMessage();
-                processExecutor.shellExec(options, commandDisableNFc);
+                Runtime.getRuntime().exec(tempAdbPath.toString() + commandDisableNFc);
                 driver.close();
                 log.info("NFC disabilitato sul device udid: "+manageCardCommand.getUdid());
             }
         }
 
-        processExecutor.shellExec(options, commandDisableNFc);
+        Runtime.getRuntime().exec(tempAdbPath.toString() + commandDisableNFc);
         log.info("NFC disabilitato sul device udid: "+manageCardCommand.getUdid());
 
         log.info("Azione Eseguita");
@@ -170,9 +194,7 @@ public class ManageCardBotService extends AbstractService {
 
         // Esegui lo swipe utilizzando le coordinate calcolate
         TouchAction<?> touchAction = new TouchAction<>(driver);
-        touchAction.press(PointOption.point(startX, startY))
-                .moveTo(PointOption.point(startX, endY))
-                .release()
-                .perform();
+        touchAction.press(PointOption.point(startX, startY)).perform();
+        touchAction.moveTo(PointOption.point(startX, endY)).release().perform();
     }
 }

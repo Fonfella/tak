@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -39,7 +40,7 @@ public class ManageCardBotService extends AbstractService {
     String getMessage;
     String url;
 
-    public JSONObject sendManageCard(ManageCardCommand manageCardCommand) throws InterruptedException, IOException {
+    public JSONObject sendManageCard(@Valid ManageCardCommand manageCardCommand) throws InterruptedException, IOException {
         ProcessOptions options = new ProcessOptions();
         JSONObject obj = new JSONObject();
         System.setProperty("ADB_HOME", "/Users/testfactory/Desktop/takServer/platform-tools");
@@ -99,7 +100,7 @@ public class ManageCardBotService extends AbstractService {
         CreateCapability cc = new CreateCapability();
         URL url;
         if (manageCardCommand.getUrl() != null) {
-            String AppiumUrl = "http://"+ manageCardCommand.getUrl()+":4724/wd/hub";
+            String AppiumUrl = "http://"+ manageCardCommand.getUrl()+":4724";
             url = new URL(AppiumUrl);
         } else {
             url = new URL("http://127.0.0.1:4724");
@@ -110,7 +111,7 @@ public class ManageCardBotService extends AbstractService {
 //                                                            fingerBotCommand.getBundleId(),
 //                                                            fingerBotCommand.getUdid()));
 
-        driver = new AndroidDriver(new URL("http://127.0.0.1:4724"), cc.getCapabilities(manageCardCommand.getDeviceName(),
+        driver = new AndroidDriver(new URL(url.toString()), cc.getCapabilities(manageCardCommand.getDeviceName(),
                 manageCardCommand.getPlatformVersion(),
                 manageCardCommand.getUdid()));
 
@@ -128,6 +129,14 @@ public class ManageCardBotService extends AbstractService {
             log.info("NFC abilitato sul device udid: "+manageCardCommand.getUdid());
             WebDriverWait fingerReady = new WebDriverWait(driver, 5);
             try {
+                if (manageCardCommand.getAfterVisa().equals("true")) {
+                    driver.terminateApp(circuito);
+                    driver.activateApp(circuito);
+                }
+            } catch (Exception e) {
+
+            }
+            try {
                 WebElement elementoSostituisci = fingerReady.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@text='Sostituisci' or @text='SOSTITUISCI']")));
                 elementoSostituisci.click();
             } catch (Exception ei) {
@@ -137,8 +146,7 @@ public class ManageCardBotService extends AbstractService {
             driver.findElement(By.xpath("//android.widget.TextView[@text='Mastercard']")).click();
             driver.findElement(By.xpath("//android.widget.TextView[@text='MCD01']")).click();
             Thread.sleep(time);
-         //   WebDriverWait waitPayments = new WebDriverWait(driver, 30);
-         //   waitPayments.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Cryptogram Information Data')]")));
+
             try {
                 driver.terminateApp(circuito);
             } catch (Exception e) {

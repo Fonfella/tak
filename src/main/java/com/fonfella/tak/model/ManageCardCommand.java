@@ -14,5 +14,6 @@ public class ManageCardCommand {
     String udid;
     String url;
     String circuito;
+    String afterVisa;
     int timeWait;
 }

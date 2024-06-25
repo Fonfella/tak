@@ -130,7 +130,8 @@ public class ManageCardBotService extends AbstractService {
             WebDriverWait fingerReady = new WebDriverWait(driver, 5);
             try {
                 if (manageCardCommand.getAfterVisa().equals("true")) {
-                    driver.terminateApp(circuito);
+                    driver.findElement(By.xpath("//*[@text='CANCEL']")).click();
+                    process = Runtime.getRuntime().exec(tempAdbPath.toString() + commandActivateNFc);
                     driver.activateApp(circuito);
                 }
             } catch (Exception e) {
@@ -183,7 +184,7 @@ public class ManageCardBotService extends AbstractService {
 
         Runtime.getRuntime().exec(tempAdbPath.toString() + commandDisableNFc);
         log.info("NFC disabilitato sul device udid: "+manageCardCommand.getUdid());
-
+//verificare inserimento riattivazione nfc con pausa
         log.info("Azione Eseguita");
         result="Azione Eseguita";
         return result;
